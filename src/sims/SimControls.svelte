@@ -3,6 +3,7 @@
   import simulator from './simStore';
 
   export let model;
+
   let value = $simulator.timeInterval;
   let elmInput;
 
@@ -39,17 +40,17 @@
       <button on:click={stepOnceHandler}>Step</button>
       <button on:click={resetHandler}>Reset</button>
     </div>
-  <form class="info">
-    <div class="step">
-      <span>STEP:</span>
-      <span>{step}</span>
-    </div>
-    <div class="time">
-      <input {value} bind:this={elmInput} placeholder="Time Interval" />
-      <kbd on:click={changeTimeInterval}>Update</kbd>
-    </div>
-  </form>
-</article>
+    <form class="info">
+      <div class="step">
+        <span>STEP:</span>
+        <span>{step}</span>
+      </div>
+      <div class="time">
+        <input {value} bind:this={elmInput} placeholder="Time Interval" />
+        <kbd on:click={changeTimeInterval}>{$simulator.timeInterval}</kbd>
+      </div>
+    </form>
+  </article>
 {/if}
 
 <style>
@@ -81,6 +82,7 @@
   }
   .info .time > kbd {
     width: 100px;
+    text-align: center;
   }
   .info .step {
     display: flex;

@@ -1,9 +1,22 @@
 <script>
-  import Sim from '../sims/Sim.svelte';
+  import SimControls from '../sims/SimControls.svelte';
 
   // Schelling model
   import VizSchelling from '../sims/schelling/VizSchelling.svelte';
-  import modelSchelling from '../sims/schelling/modelSchelling';
+  import VizParams from '../sims/schelling/VizParams.svelte';
+  import model from '../sims/schelling/modelSchelling';
 </script>
 
-<Sim model={modelSchelling} Viz={VizSchelling} />
+<SimControls {model} />
+<div class='viz'>
+  <VizSchelling />
+  <VizParams />
+</div>
+
+<style>
+  .viz {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+</style>

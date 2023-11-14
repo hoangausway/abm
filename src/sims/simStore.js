@@ -34,10 +34,10 @@ const modelForward = (model) => {
   }, timeInterval);
 
   // if model step not done yet, skip for next modelForward call
-  if (model.flagStepDone) {
+  // if (model.flagStepDone) {
     store.update(state => ({ ...state, timer: timerId, step: state.step + 1 }));
     model.step();
-  }
+  // }
 };
 
 // to run or pause the steps

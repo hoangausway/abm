@@ -1,12 +1,17 @@
 <script>
   import { extent, scaleLinear } from 'd3';
+  import model from './modelSchelling';
 
   // component props
-  export let data;
-  export let w;
-  export let h;
+  export let w = 200;
+  export let h = 200;
+  export let c0 = 'red';
+  export let c1 = 'blue';
 
-  const margins = { top: 10, right: 10, bottom: 10, left: 10 }; // typical d3 margin convention
+  const radius = 3;
+
+  // typical d3 margin convention
+  const margins = { top: 10, right: 10, bottom: 10, left: 10 };
   $: mainWidth = w - margins.right - margins.left;
   $: mainHeight = h - margins.top - margins.bottom;
 
@@ -14,9 +19,9 @@
   const move = (x, y) => `transform: translate(${x}px, ${y}px`;
   const xAccessor = (d) => d.x;
   const yAccessor = (d) => d.y;
-  const fillColor = (type) => (type === 0 ? 'red' : 'blue');
+  const fillColor = (type) => (type === 0 ? c0 : c1);
 
-  $: agents = data.agents;
+  $: agents = $model.agents;
 
   $: xScale = scaleLinear()
     .domain(extent(agents, xAccessor))
@@ -32,16 +37,16 @@
     <svg viewBox={`0 0 ${w} ${h}`}>
       <g style={move(margins.top, margins.left)}>
         {#each agents as { type, x, y }}
-          <circle cx={xScale(x)} cy={yScale(y)} r={3} fill={fillColor(type)} />
+          <circle
+            cx={xScale(x)}
+            cy={yScale(y)}
+            r={radius}
+            fill={fillColor(type)}
+          />
         {/each}
       </g>
     </svg>
   </figure>
-  <div class='grid'>
-    <span>Agents: {data.params.n}</span>
-    <span>Radius: {data.params.r}</span>
-    <span>Threshold: {data.params.th}</span>
-  </div>
 </div>
 
 <style>
@@ -53,5 +58,6 @@
 
   figure {
     background-color: whitesmoke;
+    box-shadow: 3px 3px lightgray;
   }
 </style>
