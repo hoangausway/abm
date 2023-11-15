@@ -19,7 +19,7 @@ const init = () => {
     for (let i = 0; i < n; i++) {
       agents[i] = { type: randomInt(2), x: Math.random(), y: Math.random() };
     }
-    return { params: state.params, agents };
+    return { ...state, agents };
   });
 };
 
@@ -62,10 +62,7 @@ const dispose = () => {
 
 const changeParams = (newParams) => {
   console.log('Change parameters');
-  update(state => {
-    const params = { ...state.params, ...newParams };
-    return ({ params, agents: state.agents });
-  });
+  update(state => ({ ...state, params: { ...state.params, ...newParams } }));
 };
 
 export default { subscribe, init, step, dispose, changeParams };

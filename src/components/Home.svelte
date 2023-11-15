@@ -1,5 +1,5 @@
 <script>
-  import SimControls from '../sims/SimControls.svelte';
+  import SimControls from '../sims/simcontrols/SimControls.svelte';
 
   // Schelling model
   import VizSchelling from '../sims/schelling/VizSchelling.svelte';

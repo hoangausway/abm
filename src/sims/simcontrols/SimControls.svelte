@@ -42,7 +42,7 @@
     </div>
     <form class="info">
       <div class="step">
-        <span>STEP:</span>
+        <span>Step:</span>
         <span>{step}</span>
       </div>
       <div class="time">
@@ -65,7 +65,6 @@
   }
   .info {
     margin: 0 3px;
-    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -76,12 +75,13 @@
     align-items: center;
   }
   .info .time > input {
-    height: 32px;
+    width: 4em;
+    height: 1.8em;
     margin-top: 16px;
     margin-right: 6px;
   }
   .info .time > kbd {
-    width: 100px;
+    width: 5em;
     text-align: center;
   }
   .info .step {
@@ -90,11 +90,11 @@
     align-items: center;
   }
   .info .step :nth-child(1) {
-    width: 3rem;
+    width: 3em;
   }
   .info .step :nth-child(2) {
-    width: 3rem;
+    width: 5em;
     margin-right: 1rem;
-    text-align: right;
+    text-align: left;
   }
 </style>
