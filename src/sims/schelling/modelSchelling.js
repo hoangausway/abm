@@ -1,68 +1,84 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 
 // Helpers
 const randomInt = (max) => Math.floor(Math.random() * max);
+const createAgent = () => ({ type: randomInt(2), x: Math.random(), y: Math.random() });
+const createAgents = (n) => Array.from({ length: n }, () => createAgent());
 
-const initial = {
-  params: { n: 500, r: 0.1, th: 0.5 },
-  agents: []
+let agents = [];
+let n = 500;
+let params = { r: 0.1, th: 0.5 };
+
+const initial = { params, n, agents };
+
+const store = writable(initial);
+const { subscribe, set, update } = store;
+
+const promiseInit = (n) => {
+  console.log('N', n);
+  return Promise.resolve()
+    .then(() => createAgents(n));
 };
 
-const { subscribe, update } = writable(initial);
+const promiseStep = ({ r, th, n, agents }) => {
+  return Promise.resolve()
+    .then(() => {
+      // pick a random agent
+      let ag = agents[randomInt(agents.length)];
+
+      // define neighborhood
+      let neighbors = agents.filter(function (nb) {
+        return nb !== ag && (Math.pow(ag.x - nb.x, 2) + Math.pow(ag.y - nb.y, 2) < Math.pow(r, 2));
+      });
+
+      if (neighbors.length > 0) {
+        // estimate does agent need to move
+        let q = neighbors.filter(function (nb) {
+          return nb.type === ag.type;
+        }).length / neighbors.length;
+
+        if (q < th) { // move
+          console.log(`Moving type ${ag.type} FROM (${ag.x}, ${ag.y})`);
+          ag.x = Math.random();
+          ag.y = Math.random();
+          console.log(`TO (${ag.x}, ${ag.y})`);
+        }
+      }
+      return agents;
+    });
+};
 
 // Behaviors
-const init = () => {
-  console.log('Model init');
-  update(state => {
-    const { n, r, th } = state.params;
-    const agents = [];
-    for (let i = 0; i < n; i++) {
-      agents[i] = { type: randomInt(2), x: Math.random(), y: Math.random() };
-    }
-    return { ...state, agents };
-  });
+const init = async () => {
+  console.log('Model INIT', n, { ...params });
+  agents = await promiseInit(n);
+  store.set({ params, n, agents });
 };
 
-const step = () => {
-  console.log('Model step START');
-  update(state => {
-    const { params, agents } = state;
-    const { n, r, th } = params;
+const step = async () => {
+  console.log('Model step START', n, { ...params });
 
-    // pick a random agent
-    let ag = agents[randomInt(agents.length)];
+  agents = await promiseStep({ ...params, n, agents });
+  store.set({ params, n, agents });
 
-    // define neighborhood
-    let neighbors = agents.filter(function (nb) {
-      return nb !== ag && (Math.pow(ag.x - nb.x, 2) + Math.pow(ag.y - nb.y, 2) < Math.pow(r, 2));
-    });
-
-    if (neighbors.length > 0) {
-      // estimate does agent need to move
-      let q = neighbors.filter(function (nb) {
-        return nb.type === ag.type;
-      }).length / neighbors.length;
-
-      if (q < th) { // move
-        console.log(`Moving type ${ag.type} FROM (${ag.x}, ${ag.y})`);
-        ag.x = Math.random();
-        ag.y = Math.random();
-        console.log(`TO (${ag.x}, ${ag.y})`);
-      }
-    }
-    return { params, agents };
-  });
   console.log('Model step DONE');
 };
 
 const dispose = () => {
   console.log('Discard model');
-  update(state => ({ params: state.params, agents: [] }));
+  agents = [];
 };
 
 const changeParams = (newParams) => {
   console.log('Change parameters');
-  update(state => ({ ...state, params: { ...state.params, ...newParams } }));
+  params = { ...newParams };
+  set(({ params, n, agents }));
 };
 
-export default { subscribe, init, step, dispose, changeParams };
+const changeN = (N) => {
+  console.log('Change N', N);
+  n = N;
+  set(({ params, n, agents }));
+};
+
+export default { subscribe, init, step, dispose, changeParams, changeN };

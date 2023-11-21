@@ -1,15 +1,14 @@
 <script>
   import model from './modelSchelling';
+  $: n = $model.n;
+  
   $: params = $model.params;
-
-  $: n = params && params.n;
   $: r = params && params.r;
   $: th = params && params.th;
 
   let elmInputN, elmInputR, elmInputTh;
   const changeN = () => {
-    params.n = parseInt(elmInputN.value);
-    model.changeParams({ ...params });
+    model.changeN(parseInt(elmInputN.value));
   };
   const changeR = () => {
     params.r = parseFloat(elmInputR.value);
@@ -21,12 +20,14 @@
   };
 </script>
 
-{#if params}
-  <div class="params">
+<div class="params">
+  {#if n}
     <div class="changes">
       <input value={n} bind:this={elmInputN} placeholder="Agent number" />
       <kbd on:click={changeN}>{n}</kbd>
     </div>
+  {/if}
+  {#if params}
     <div class="changes">
       <input
         inputmode="decimal"
@@ -45,15 +46,15 @@
       />
       <kbd on:click={changeTh}>{th}</kbd>
     </div>
-  </div>
-{/if}
+  {/if}
+</div>
 
 <style>
   .params {
     padding: 0.7em;
     display: flex;
     flex-direction: column;
-    justify-content:space-between;
+    justify-content: space-between;
     align-items: flex-end;
   }
   .changes {
