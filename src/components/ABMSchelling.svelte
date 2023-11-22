@@ -4,14 +4,10 @@
 
   $: console.log($$props);
 
-  $: modelName = $$props.route.model;
-  $: vizName = $$props.route.viz;
-  $: vizParamsName = $$props.route.vizParams;
-
   $: promise = Promise.all([
-    import(`../sims/schelling/${modelName}.js`),
-    import(`../sims/schelling/${vizName}.svelte`),
-    import(`../sims/schelling/${vizParamsName}.svelte`),
+    import(/* @vite-ignore */'../sims/schelling/model.js'),
+    import(/* @vite-ignore */'../sims/schelling/Viz.svelte'),
+    import(/* @vite-ignore */'../sims/schelling/VizParams.svelte'),
   ]);
 </script>
 

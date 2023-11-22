@@ -1,6 +1,6 @@
 <script>
   import { extent, scaleLinear } from 'd3';
-  import model from './modelSchelling';
+  import model from './model';
 
   // component props
   export let w = 200;

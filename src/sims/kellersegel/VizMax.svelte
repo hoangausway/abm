@@ -1,5 +1,5 @@
 <script>
-  import model from './modelKellerSegel';
+  import model from './model';
   import simulator from '../simcontrols/simStore';
 
   // component props

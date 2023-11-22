@@ -1,6 +1,6 @@
 <script>
   import { extent, scaleLinear } from 'd3';
-  import model from './modelKellerSegel';
+  import model from './model';
 
   // component props
   export let w = 400;
@@ -20,7 +20,7 @@
 
   $: agents = $model.agents;
   $: env = $model.env;
-  $: size = $model.params.w;
+  $: size = $model.w;
   $: max = env.reduce((acc, arr) => {
     const arrMax = Math.max(...arr);
     return acc < arrMax ? arrMax : acc;
@@ -41,7 +41,7 @@
   $: wScale = w / size;
 </script>
 
-{#if env && env[0]}
+{#if env}
   <div class="viz">
     <figure style={`width: ${w}px; height: ${h}px`}>
       <svg viewBox={`0 0 ${w} ${h}`}>

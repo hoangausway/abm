@@ -1,5 +1,5 @@
 <script>
-  import model from './modelSchelling';
+  import model from './model';
   $: n = $model.n;
   
   $: params = $model.params;

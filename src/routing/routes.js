@@ -11,15 +11,10 @@ export const loginPath = '/login';
 
 const onlineRoutes = {
   '/abm/schelling': {
-    component: ABMSchelling,
-    model: 'modelSchelling',
-    viz: 'VizSchelling',
-    vizParams: 'VizParams'
+    component: ABMSchelling
   },
   '/abm/kellersegel': {
-    component: ABMKellerSegel,
-    model: 'modelKellerSegel',
-    viz: 'VizKellerSegel'
+    component: ABMKellerSegel
   },
   '/': {
     component: Home

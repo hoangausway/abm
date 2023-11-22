@@ -2,14 +2,9 @@
   // Simulator
   import SimControls from '../sims/simcontrols/SimControls.svelte';
 
-  $: console.log($$props);
-
-  $: modelName = $$props.route.model;
-  $: vizName = $$props.route.viz;
-
   $: promise = Promise.all([
-    import(`../sims/kellersegel/${modelName}.js`),
-    import(`../sims/kellersegel/${vizName}.svelte`),
+    import(/* @vite-ignore */ `../sims/kellersegel/model.js`),
+    import(/* @vite-ignore */`../sims/kellersegel/Viz.svelte`),
   ]);
 </script>
 
