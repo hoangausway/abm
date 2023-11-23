@@ -6,10 +6,11 @@ const randomInt = (max) => Math.floor(Math.random() * max);
 
 const zeroSquareMatrix = (size) => Array.from({ length: size }, () => Array.from({ length: size }, () => 0));;
 const createAgent = (size) => ({ x: randomInt(size), y: randomInt(size) });
+const createAgents = (n, w) => Array.from({ length: n }, () => createAgent(w));
 
 const initCalculation = ({ n, w }) => {
   const env = zeroSquareMatrix(w);
-  const agents = Array.from({ length: n }, () => createAgent(w));
+  const agents = createAgents(n, w);
   return { env, agents };
 };
 

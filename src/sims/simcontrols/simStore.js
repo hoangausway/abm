@@ -3,96 +3,107 @@ import { writable, get } from 'svelte/store';
 /*
   Model: {agents, init, step, dispose}
 */
-// Initial
-const initial = {
-  running: false,
-  step: -1,
-  timer: null,
-  timeInterval: 5
-};
+// Simulation parameters
+let running = false;
+let step = 0;
+let timer = null;
+let timeInterval = 100;
 
-// Define the simulation state store
-const store = writable(initial);
+// Define the simulation state store, for outside subscription
+const store = writable({ running, step, timer, timeInterval });
+const { subscribe, set } = store;
 
 // Helper
 const clearTimer = () => {
-  const { timer } = get(store);
-  if (timer) {
-    clearTimeout(timer);
-    store.update(state => ({ ...state, timer: null }));
-  }
+  timer && clearTimeout(timer);
+  return null;
 };
 
+const modelForward = async (model) => {
+  step++;
+  // set store data
+  set({ running, step, timeInterval });
 
-// private
-const modelForward = (model) => {
-  const { timeInterval } = get(store);
+  // await till model has completed a step
+  console.log(`Running ${step}... `);
+  await model.step();
 
   // setup for next continuosly stepping
-  const timerId = setTimeout(() => {
-    modelForward(model);
-  }, timeInterval);
-
-  // if model step not done yet, skip for next modelForward call
-  // if (model.flagStepDone) {
-    store.update(state => ({ ...state, timer: timerId, step: state.step + 1 }));
-    model.step();
-  // }
+  console.log(`Model step ${step} done... To be scheduled for next step ${step + 1} in: ${timeInterval}`);
+  if (running) {
+    timer = setTimeout(() => {
+      modelForward(model);
+    }, timeInterval);
+  }
 };
 
+/* --- Simulator interface ---
+  - subscribe (for reactive data {running, step, timeInterval})
+  - runOrPause
+  - stepOnce
+  - reset
+  - destroy
+  - init
+  - changeTimeInterval
+*/
 // to run or pause the steps
-const runOrPause = (model) => {
-  const { running, step, timer } = get(store);
-
+const runOrPause = async (model) => {
   // clear timeout of the running loop
-  clearTimer();
+  timer = clearTimer();
 
-  if (running) { // to pause
-    store.update(state => ({ ...state, running: false }));
-  } else { // to run
-    store.update(state => ({ ...state, running: true }));
-    modelForward(model);
-  }
+  running = !running;
+  set({ running, step, timeInterval });
+
+  if (running) modelForward(model);
 };
 
 // to step once
-const stepOnce = (model) => {
-  const { step, timer } = get(store);
-
+const stepOnce = async (model) => {
   // clear timeout of the running loop
-  clearTimer();
+  timer = clearTimer();
+  step++;
+  set({ running, step, timeInterval });
 
-  store.update(state => ({ ...state, running: false, step: step + 1 }));
-  model.step();
+  await model.step();
+  running = false;
+  set({ running, step, timeInterval });
 };
 
 // to reset model and ready to simulate from beginning
-const resetModel = (model) => {
-  const { step, timer } = get(store);
-
+const reset = async (model) => {
   // clear timeout of the running loop
-  clearTimer();
-
-  store.update(state => ({ ...state, running: false, step: 0 }));
+  timer = clearTimer();
+  step = 0;
+  running = false;
+  set({ running, step, timeInterval });
   model.init();
 };
 
-const init = (model) => {
-  store.update(state => ({ ...state, step: 0 }));
-  model.init();
+const init = async (model) => {
+  await model.init();
 };
 
 const destroy = (model) => {
-  clearTimer();
-  store.set(initial);
+  timer = clearTimer();
+  running = false;
+  step = 0;
+  // Keep latest timeInterval value un changed
+  set({ running, step, timeInterval });
+
   model.dispose();
+};
+
+const changeTimeInterval = (interval) => {
+  timeInterval = interval;
+  set({ running, step, timeInterval });
 };
 
 export default {
   ...store,
   runOrPause,
   stepOnce,
-  resetModel,
+  reset,
   init,
-  destroy
+  destroy,
+  changeTimeInterval
 };

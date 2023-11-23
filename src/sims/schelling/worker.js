@@ -3,8 +3,9 @@ import registerPromiseWorker from 'promise-worker/register';
 // Helpers
 const randomInt = (max) => Math.floor(Math.random() * max);
 const createAgent = () => ({ type: randomInt(2), x: Math.random(), y: Math.random() });
-
 const createAgents = (n) => Array.from({ length: n }, () => createAgent());
+
+const initCalculation = createAgents;
 
 const stepCalculation = ({ r, th, n, agents }) => {
   // pick a random agent
@@ -33,7 +34,7 @@ const stepCalculation = ({ r, th, n, agents }) => {
 
 registerPromiseWorker(({ type, data }) => {
   if (type === 'INIT')
-    return createAgents(data.n);
+    return initCalculation(data.n);
   else if (type === 'STEP') {
     const { r, th, n, agents } = data;
     return stepCalculation({ r, th, n, agents });

@@ -9,6 +9,7 @@
 
   $: isRunning = $simulator && $simulator.running;
   $: step = $simulator && $simulator.step;
+  $: timeInterval = $simulator && $simulator.timeInterval;
 
   const startHandler = () => {
     simulator.runOrPause(model);
@@ -19,18 +20,20 @@
   };
 
   const resetHandler = () => {
-    simulator.resetModel(model);
+    simulator.reset(model);
+  };
+
+  const changeTimeInterval = () => {
+    const value = parseInt(elmInput.value);
+    if (typeof value === 'number' && value >= 0) {
+      simulator.changeTimeInterval(value);
+    }
   };
 
   onMount(() => {
     simulator.init(model);
     return () => simulator.destroy(model);
   });
-
-  const changeTimeInterval = () => {
-    $simulator.timeInterval = parseInt(elmInput.value);
-    $simulator = $simulator;
-  };
 </script>
 
 {#if simulator}
@@ -47,7 +50,7 @@
       </div>
       <div class="time">
         <input {value} bind:this={elmInput} placeholder="Time Interval" />
-        <kbd on:click={changeTimeInterval}>{$simulator.timeInterval}</kbd>
+        <kbd on:click={changeTimeInterval}>{timeInterval}</kbd>
       </div>
     </form>
   </article>
