@@ -1,57 +1,25 @@
-import { writable } from 'svelte/store';
 import PromiseWorker from 'promise-worker';
+import { createModel } from '../simcontrols/modelFactory';
 
 const worker = new PromiseWorker(new Worker(new URL('./worker', import.meta.url), { type: 'module' }));
 
+// store
+let env = [];
 let agents = [];
-let n = 500;
-let params = { r: 0.1, th: 0.5 };
+let nAgents = 500;
+let wDim = 100; // number of rows/columns in spatial array
+let modelParams = { r: 0.1, th: 0.5 };
 
-const store = writable({ params, n, agents });
-const { subscribe, set } = store;
-
-const promiseInit = (n) => {
-  console.log('N', n);
+const promiseInit = ({ n, w, params }) => {
   return worker.postMessage({ type: 'INIT', data: { n } })
     .catch(console.log);
 };
 
-const promiseStep = ({ r, th, n, agents }) => {
-  return worker.postMessage({ type: 'STEP', data: { r, th, n, agents } })
+const promiseStep = ({ w, params, agents, env }) => {
+  return worker.postMessage({ type: 'STEP', data: { w, params, agents, env } })
     .catch(console.log);
 };
 
-// Behaviors
-const init = async () => {
-  console.log('Model INIT', n, { ...params });
-  agents = await promiseInit(n);
-  store.set({ params, n, agents });
-};
+const model = createModel([promiseInit, promiseStep, modelParams, nAgents, wDim]);
 
-const step = async () => {
-  console.log('Model step START', n, { ...params });
-
-  agents = await promiseStep({ ...params, n, agents });
-  store.set({ params, n, agents });
-
-  console.log('Model step DONE');
-};
-
-const dispose = () => {
-  console.log('Discard model');
-  agents = [];
-};
-
-const changeParams = (newParams) => {
-  console.log('Change parameters');
-  params = { ...newParams };
-  set(({ params, n, agents }));
-};
-
-const changeN = (N) => {
-  console.log('Change N', N);
-  n = N;
-  set(({ params, n, agents }));
-};
-
-export default { subscribe, init, step, dispose, changeParams, changeN };
+export default model;

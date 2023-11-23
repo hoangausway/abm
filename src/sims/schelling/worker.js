@@ -5,9 +5,13 @@ const randomInt = (max) => Math.floor(Math.random() * max);
 const createAgent = () => ({ type: randomInt(2), x: Math.random(), y: Math.random() });
 const createAgents = (n) => Array.from({ length: n }, () => createAgent());
 
-const initCalculation = createAgents;
+const initCalculation = ({ n }) => {
+  return { agents: createAgents(n) };
+};
 
-const stepCalculation = ({ r, th, n, agents }) => {
+const stepCalculation = ({ w, params, agents, env }) => {
+  const { r, th } = params;
+
   // pick a random agent
   let ag = agents[randomInt(agents.length)];
 
@@ -29,15 +33,15 @@ const stepCalculation = ({ r, th, n, agents }) => {
       console.log(`TO (${ag.x}, ${ag.y})`);
     }
   }
-  return agents;
+  return { agents };
 };
 
 registerPromiseWorker(({ type, data }) => {
   if (type === 'INIT')
-    return initCalculation(data.n);
+    return initCalculation(data);
   else if (type === 'STEP') {
     const { r, th, n, agents } = data;
-    return stepCalculation({ r, th, n, agents });
+    return stepCalculation(data);
   }
   return [];
 });
