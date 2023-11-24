@@ -1,4 +1,7 @@
 <script>
+  // 25/11/2023 HOANG moved responsive into this component
+  import smallPoint from '../stores/breakpoints';
+
   export let props;
   $: route = props.route;
   $: left = route.left || route.component;
@@ -8,7 +11,7 @@
 <!-- logic per if right component specified -->
 {#if right}
   <!-- logic per if there is params and/or the params for left or right component -->
-  <div class="double">
+  <div class={$smallPoint ? 'single' : 'double'}>
     <div><svelte:component this={left} {...props} /></div>
     <div><svelte:component this={right} {...props} /></div>
   </div>
@@ -30,5 +33,12 @@
   .double :nth-child(2) {
     overflow-y: scroll;
     height: 95vh;
+  }
+  .single {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
   }
 </style>

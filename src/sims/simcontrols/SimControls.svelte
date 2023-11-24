@@ -1,8 +1,10 @@
 <script>
   import { onMount } from 'svelte';
-  import simulator from './simStore';
+  import { createSimStore } from './simStoreFactory';
 
   export let model;
+
+  const simulator = createSimStore();
 
   let value = $simulator.timeInterval;
   let elmInput;

@@ -17,7 +17,9 @@ const onlineRoutes = {
     component: ABMKellerSegel
   },
   '/': {
-    component: Home
+    component: Home,
+    left: ABMSchelling,
+    right: ABMKellerSegel
   },
   '/private': {
     component: Private,

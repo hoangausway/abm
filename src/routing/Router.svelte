@@ -2,14 +2,12 @@
   import page from 'page';
 
   import routes, { loginPath } from './routes';
-  import Single from './Single.svelte';
   import Double from './Double.svelte';
 
   import auth from '../stores/auth';
   import redirectPath from '../stores/redirectPath';
-  import smallPoint from '../stores/breakpoints';
 
-  let props, component;
+  let props;
 
   // def: set props, set component
   // reactive: $authed, $media.small
@@ -32,8 +30,9 @@
       return;
     }
 
+    // 25/11/2023 HOANG moved responsive into Double component codes
     // set 'component' variable, reactive to authed and media
-    component = $smallPoint ? Single : Double;
+    // component = $smallPoint ? Single : Double;
   };
 
   // def: routing by setup props and component for specified path
@@ -48,4 +47,4 @@
   }
 </script>
 
-  <svelte:component this={component} {props} />
+<svelte:component this={Double} {props} />
