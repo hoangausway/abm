@@ -15,12 +15,12 @@ let modelParams = {
 // Helpers
 const randomInt = (max) => Math.floor(Math.random() * max);
 
-const zeroSquareMatrix = (size) => Array.from({ length: size }, () => Array.from({ length: size }, () => 0));;
 const createAgent = (size) => ({ x: randomInt(size), y: randomInt(size) });
 const createAgents = (n, w) => Array.from({ length: n }, () => createAgent(w));
+const createEnv = (size) => Array.from({ length: size }, () => Array.from({ length: size }, () => 0));
 
 const init = ({ n, w, params }) => {
-  const env = zeroSquareMatrix(w);
+  const env = createEnv(w);
   const agents = createAgents(n, w);
   return { env, agents };
 };
