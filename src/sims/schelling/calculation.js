@@ -1,23 +1,13 @@
-import { createModel } from '../simcontrols/modelFactory';
-
-// initial parameters
-let nAgents = 500;
-let wDim = 100; // number of rows/columns in spatial array
-let modelParams = { r: 0.1, th: 0.5 };
-
-// behaviors
 // Helpers
 const randomInt = (max) => Math.floor(Math.random() * max);
 const createAgent = () => ({ type: randomInt(2), x: Math.random(), y: Math.random() });
 const createAgents = (n) => Array.from({ length: n }, () => createAgent());
 
-// returns agents, env
-const init = ({ n, w, params }) => {
+export const initCalculation = ({ n, w, params }) => {
   return { agents: createAgents(n) };
 };
 
-// returns agents, env
-const step = ({ w, params, agents, env }) => {
+export const stepCalculation = ({ w, params, agents, env }) => {
   const { r, th } = params;
 
   // pick a random agent
@@ -44,6 +34,3 @@ const step = ({ w, params, agents, env }) => {
   return { agents };
 };
 
-const model = createModel([init, step, modelParams, nAgents, wDim]);
-
-export default model;

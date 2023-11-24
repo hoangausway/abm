@@ -8,7 +8,7 @@ const zeroSquareMatrix = (size) => Array.from({ length: size }, () => Array.from
 const createAgent = (size) => ({ x: randomInt(size), y: randomInt(size) });
 const createAgents = (n, w) => Array.from({ length: n }, () => createAgent(w));
 
-const initCalculation = ({ n, w }) => {
+const initCalculation = ({ n, w, params }) => {
   const env = zeroSquareMatrix(w);
   const agents = createAgents(n, w);
   return { env, agents };

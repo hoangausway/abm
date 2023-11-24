@@ -1,33 +1,36 @@
 import { writable } from 'svelte/store';
 
-export const createModel = ([promiseInit, promiseStep, modelParams, nAgents, wDim]) => {
+export const createModel = ([init, step, modelParams, nAgents, wDim]) => {
   let n = nAgents;
-  let w = wDim; // number of rows/columns in spatial array
+  let w = wDim; // number of rows/columns in spatial array. To be redefined for xDim and yDim
   let params = { ...modelParams };
-  let env = [];
-  let agents = [];
 
-  console.log('pars', modelParams);
-  console.log('params', params);
+  let env = []; // environment 2D rray !!! to be generalized for othe topologies
+  let agents = []; // agents array
 
   const store = writable({ params, n, w, agents, env });
   const { subscribe, set } = store;
 
-  const init = async () => {
-    console.log('Model init');
-    const res = await promiseInit({ n, w, params }); // res = {agents, env}
-    agents = res.agents;
-    env = res.env;
-    set({ params, n, w, agents, env });
+  const modelInit = async () => {
+    return Promise.resolve({ n, w, params })
+      .then(data => init(data)) // init returns res = {agents, env}
+      .then(res => {
+        agents = res.agents;
+        env = res.env;
+        set({ params, n, w, agents, env });
+      })
+      .catch(console.log);
   };
 
-  const step = async () => {
-    console.log('Model step START');
-    const res = await promiseStep({ params, n, w, agents, env }); // res = {agents, env}
-    agents = res.agents;
-    env = res.env;
-    set({ params, n, w, agents, env });
-    console.log('Model step DONE');
+  const modelStep = async () => {
+    return Promise.resolve({ params, n, w, agents, env })
+      .then(data => step(data)) // step returns res = {agents, env}
+      .then(res => {
+        agents = res.agents;
+        env = res.env;
+        set({ params, n, w, agents, env });
+      })
+      .catch(console.log);
   };
 
   const dispose = () => {
@@ -37,23 +40,20 @@ export const createModel = ([promiseInit, promiseStep, modelParams, nAgents, wDi
   };
 
   const changeParams = (newParams) => {
-    console.log('Change parameters');
     params = { ...newParams };
     set(({ params, n, w, agents, env }));
   };
 
   const changeN = (N) => {
-    console.log('Change N', N);
     n = N;
     set(({ params, n, w, agents, env }));
   };
 
   const changeW = (W) => {
-    console.log('Change W', W);
     w = W;
     set(({ params, n, w, agents, env }));
   };
 
-  return { subscribe, init, step, dispose, changeParams, changeN, changeW };
+  return { subscribe, init: modelInit, step: modelStep, dispose, changeParams, changeN, changeW };
 };
 
