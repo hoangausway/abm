@@ -3,8 +3,8 @@
   import model from './model';
 
   // component props
-  export let w = 200;
-  export let h = 200;
+  export let w = 400;
+  export let h = 400;
   export let c0 = 'red';
   export let c1 = 'blue';
 

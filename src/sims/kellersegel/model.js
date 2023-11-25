@@ -1,9 +1,9 @@
-import { createModel } from '../simcontrols/modelFactory';
+import { createModel } from '../common/modelFactory';
 
 // initial parameters
-let nAgents = 1000;
-let wDim = 100; // number of rows/columns in spatial array
-let modelParams = {
+const nAgents = 1000;
+const wDim = 100; // number of rows/columns in spatial array
+const modelParams = {
   k: 1, // rate of cAMP decay
   Dc: 0.001, // diffusion constant of cAMP
   Dh: 0.01, // spatial resolution for cAMP simulation

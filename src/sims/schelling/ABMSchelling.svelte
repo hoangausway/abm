@@ -1,18 +1,23 @@
 <script>
   // Simulator
-  import SimControls from '../sims/simcontrols/SimControls.svelte';
+  import SimControls from '../simcontrols/SimControls.svelte';
 
   $: promise = Promise.all([
-    import(/* @vite-ignore */ `../sims/kellersegel/model.js`),
-    import(/* @vite-ignore */`../sims/kellersegel/Viz.svelte`),
+    import(/* @vite-ignore */ './model.js'),
+    import(/* @vite-ignore */ './Viz.svelte'),
+    import(/* @vite-ignore */ '../common/VizParams.svelte'),
   ]);
 </script>
 
 <!-- svelte-ignore empty-block -->
-{#await promise then [modelModul, vizModule]}
+{#await promise then [modelModul, vizModule, vizPapamsModule]}
   <SimControls model={modelModul.default} />
   <div class="viz">
     <svelte:component this={vizModule.default} />
+    <svelte:component
+      this={vizPapamsModule.default}
+      model={modelModul.default}
+    />
   </div>
 {:catch error}
   <p style="color: red">{error.message}</p>

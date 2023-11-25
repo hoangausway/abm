@@ -4,8 +4,8 @@ import Login from '../components/Login.svelte';
 import Home from '../components/Home.svelte';
 import Private from '../components/Private.svelte';
 
-import ABMSchelling from '../components/ABMSchelling.svelte';
-import ABMKellerSegel from '../components/ABMKellerSegel.svelte';
+import ABMSchelling from '../sims/schelling/ABMSchelling.svelte';
+import ABMKellerSegel from '../sims/kellersegel/ABMKellerSegel.svelte';
 
 export const loginPath = '/login';
 

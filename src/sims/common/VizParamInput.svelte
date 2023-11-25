@@ -1,0 +1,31 @@
+<script>
+  export let params;
+  export let key;
+  export let changeParams;
+
+  let elm;
+
+  const change = () => {
+    params[key] = parseFloat(elm.value);
+    changeParams({ ...params });
+  };
+</script>
+
+<div class="changes">
+  <input value={params[key]} bind:this={elm} />
+  <kbd on:click={change}>{params[key]}</kbd>
+</div>
+
+<style>
+  .changes {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .changes > input {
+    height: 28px;
+    margin-top: 16px;
+    margin-right: 6px;
+  }
+</style>

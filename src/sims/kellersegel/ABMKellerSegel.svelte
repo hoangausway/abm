@@ -1,11 +1,11 @@
 <script>
   // Simulator
-  import SimControls from '../sims/simcontrols/SimControls.svelte';
+  import SimControls from '../simcontrols/SimControls.svelte';
 
   $: promise = Promise.all([
-    import(/* @vite-ignore */'../sims/schelling/model.js'),
-    import(/* @vite-ignore */'../sims/schelling/Viz.svelte'),
-    import(/* @vite-ignore */'../sims/schelling/VizParams.svelte'),
+    import(/* @vite-ignore */ `./model.js`),
+    import(/* @vite-ignore */ `./Viz.svelte`),
+    import(/* @vite-ignore */ '../common/VizParams.svelte'),
   ]);
 </script>
 
@@ -14,7 +14,7 @@
   <SimControls model={modelModul.default} />
   <div class="viz">
     <svelte:component this={vizModule.default} />
-    <svelte:component this={vizPapamsModule.default} />
+    <svelte:component this={vizPapamsModule.default} model={modelModul.default} />
   </div>
 {:catch error}
   <p style="color: red">{error.message}</p>

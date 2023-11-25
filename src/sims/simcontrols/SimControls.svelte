@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { createSimStore } from './simStoreFactory';
+  import { createSimStore } from '../common/simStoreFactory';
 
   export let model;
 

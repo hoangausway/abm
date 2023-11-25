@@ -1,9 +1,9 @@
-import { createModel } from '../simcontrols/modelFactory';
+import { createModel } from '../common/modelFactory';
 
 // initial parameters
-let nAgents = 500;
-let wDim = 100; // number of rows/columns in spatial array
-let modelParams = { r: 0.1, th: 0.5 };
+const nAgents = 500;
+const wDim = 100; // number of rows/columns in spatial array
+const modelParams = { r: 0.1, th: 0.5 };
 
 // behaviors
 // Helpers

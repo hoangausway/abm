@@ -6,7 +6,7 @@
   export let w = 400;
   export let h = 400;
 
-  const radius = 1;
+  const radius = 3;
 
   // typical d3 margin convention
   const margins = { top: 10, right: 10, bottom: 10, left: 10 };
