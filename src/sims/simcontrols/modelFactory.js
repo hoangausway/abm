@@ -13,7 +13,7 @@ export const createModel = ([init, step, modelParams, nAgents, wDim]) => {
 
   const modelInit = async () => {
     return Promise.resolve({ n, w, params })
-      .then(data => init(data)) // init returns res = {agents, env}
+      .then(init) // data -> {agents, env}
       .then(res => {
         agents = res.agents;
         env = res.env;
@@ -24,7 +24,7 @@ export const createModel = ([init, step, modelParams, nAgents, wDim]) => {
 
   const modelStep = async () => {
     return Promise.resolve({ params, n, w, agents, env })
-      .then(data => step(data)) // step returns res = {agents, env}
+      .then(step) // data -> {agents, env}
       .then(res => {
         agents = res.agents;
         env = res.env;

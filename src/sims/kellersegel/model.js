@@ -19,14 +19,15 @@ const createAgent = (size) => ({ x: randomInt(size), y: randomInt(size) });
 const createAgents = (n, w) => Array.from({ length: n }, () => createAgent(w));
 const createEnv = (size) => Array.from({ length: size }, () => Array.from({ length: size }, () => 0));
 
+// { n, w, params } -> {agents, env}
 const init = ({ n, w, params }) => {
   const env = createEnv(w);
   const agents = createAgents(n, w);
   return { env, agents };
 };
 
-const step = ({ w, params, agents, env }) => {
-  console.log('w', { w, params, agents, env });
+// { n, w, params, agents, env } -> {agents, env}
+const step = ({ n, w, params, agents, env }) => {
   const { Dh, Dc, Dt, k, f } = params;
 
   // Simulating diffusion and evaporation of cAMP

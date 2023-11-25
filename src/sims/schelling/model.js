@@ -11,13 +11,13 @@ const randomInt = (max) => Math.floor(Math.random() * max);
 const createAgent = () => ({ type: randomInt(2), x: Math.random(), y: Math.random() });
 const createAgents = (n) => Array.from({ length: n }, () => createAgent());
 
-// returns agents, env
+// { n, w, params } -> {agents, env}
 const init = ({ n, w, params }) => {
   return { agents: createAgents(n) };
 };
 
-// returns agents, env
-const step = ({ w, params, agents, env }) => {
+// { n, w, params, agents, env } -> {agents, env}
+const step = ({ n, w, params, agents, env }) => {
   const { r, th } = params;
 
   // pick a random agent
