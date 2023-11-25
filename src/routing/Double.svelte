@@ -6,17 +6,24 @@
   $: route = props.route;
   $: left = route.left || route.component;
   $: right = route.right;
+  $: params = props.params;
+  $: paramsForLeft = params && route.component.name === left && left.name;
 </script>
 
 <!-- logic per if right component specified -->
 {#if right}
-  <!-- logic per if there is params and/or the params for left or right component -->
+  <!-- To do:  logic if there is params and/or the params for left OR right component -->
   <div class={$smallPoint ? 'single' : 'double'}>
-    <div><svelte:component this={left} {...props} /></div>
-    <div><svelte:component this={right} {...props} /></div>
+    {#if paramsForLeft}
+      <div><svelte:component this={left} {...params} /></div>
+      <div><svelte:component this={right} /></div>
+    {:else}
+      <div><svelte:component this={left} /></div>
+      <div><svelte:component this={right} {...params} /></div>
+    {/if}
   </div>
 {:else}
-  <svelte:component this={left} {...props} />
+  <svelte:component this={left} {...params} />
 {/if}
 
 <style>

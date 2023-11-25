@@ -6,12 +6,11 @@
 
   const simulator = createSimStore();
 
-  let value = $simulator.timeInterval;
-  let elmInput;
+  $: isRunning = $simulator.running;
+  $: step = $simulator.step;
+  $: timeInterval = $simulator.timeInterval;
 
-  $: isRunning = $simulator && $simulator.running;
-  $: step = $simulator && $simulator.step;
-  $: timeInterval = $simulator && $simulator.timeInterval;
+  let elmInput;
 
   const startHandler = () => {
     simulator.runOrPause(model);
@@ -51,7 +50,11 @@
         <span>{step}</span>
       </div>
       <div class="time">
-        <input {value} bind:this={elmInput} placeholder="Time Interval" />
+        <input
+          value={timeInterval}
+          bind:this={elmInput}
+          placeholder="Time Interval"
+        />
         <kbd on:click={changeTimeInterval}>{timeInterval}</kbd>
       </div>
     </form>
@@ -80,7 +83,7 @@
     align-items: center;
   }
   .info .time > input {
-    width: 4em;
+    width: 5em;
     height: 1.8em;
     margin-top: 16px;
     margin-right: 6px;

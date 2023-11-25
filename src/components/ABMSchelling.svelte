@@ -2,8 +2,6 @@
   // Simulator
   import SimControls from '../sims/simcontrols/SimControls.svelte';
 
-  $: console.log($$props);
-
   $: promise = Promise.all([
     import(/* @vite-ignore */'../sims/schelling/model.js'),
     import(/* @vite-ignore */'../sims/schelling/Viz.svelte'),
