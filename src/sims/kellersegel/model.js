@@ -1,4 +1,5 @@
 import { createModel } from '../common/modelFactory';
+import { randomInt } from '../common/utils';
 
 // initial parameters
 const nAgents = 1000;
@@ -12,9 +13,6 @@ const modelParams = {
 };
 
 // Helpers
-// Helpers
-const randomInt = (max) => Math.floor(Math.random() * max);
-
 const createAgent = (size) => ({ x: randomInt(size), y: randomInt(size) });
 const createAgents = (n, w) => Array.from({ length: n }, () => createAgent(w));
 const createEnv = (size) => Array.from({ length: size }, () => Array.from({ length: size }, () => 0));

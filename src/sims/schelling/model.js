@@ -1,13 +1,13 @@
 import { createModel } from '../common/modelFactory';
+import { randomInt } from '../common/utils';
 
 // initial parameters
 const nAgents = 500;
-const wDim = 100; // number of rows/columns in spatial array
+const wDim = 1; // number of rows/columns in spatial array
 const modelParams = { r: 0.1, th: 0.5 };
 
 // behaviors
 // Helpers
-const randomInt = (max) => Math.floor(Math.random() * max);
 const createAgent = () => ({ type: randomInt(2), x: Math.random(), y: Math.random() });
 const createAgents = (n) => Array.from({ length: n }, () => createAgent());
 
