@@ -5,11 +5,15 @@
   export let model;
   $: n = $model.n;
   $: params = $model.params;
+  $: w = $model.w;
 </script>
 
 <div class="params">
   {#if n}
     <VizNInput par={n} change={model.changeN} />
+  {/if}
+  {#if w}
+    <VizNInput par={w} change={model.changeW} />
   {/if}
   {#if params}
     {#each Object.keys(params) as par}
