@@ -12,6 +12,7 @@ export const createModel = ([init, step, modelParams, nAgents, wDim]) => {
   const { subscribe, set } = store;
 
   const modelInit = async () => {
+    console.log('modelInit', { n, w, params });
     return Promise.resolve({ n, w, params })
       .then(init) // data -> {agents, env}
       .then(res => {

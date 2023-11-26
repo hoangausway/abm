@@ -4,6 +4,7 @@ import Login from '../components/Login.svelte';
 import Home from '../components/Home.svelte';
 import Private from '../components/Private.svelte';
 
+import ABMFoxRabbit from '../sims/foxrabbit/ABMFoxRabbit.svelte';
 import ABMSchelling from '../sims/schelling/ABMSchelling.svelte';
 import ABMKellerSegel from '../sims/kellersegel/ABMKellerSegel.svelte';
 
@@ -18,8 +19,8 @@ const onlineRoutes = {
   },
   '/': {
     component: Home,
-    left: ABMSchelling,
-    right: ABMKellerSegel
+    left: ABMFoxRabbit,
+    right: ABMSchelling
   },
   '/private': {
     component: Private,
