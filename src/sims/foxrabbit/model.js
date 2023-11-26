@@ -86,12 +86,6 @@ const step = ({ n, w, params, agents, env }) => {
     t += 1.0 / agents.length;
     updateOneAgent({ n, w, params }, ags);
   }
-
-  // const { rabbits, foxes } = ags.reduce((acc, a) => {
-  //   return (a.type === 'r') ? ({ ...acc, rabbits: acc.rabbits + 1 }) : ({ ...acc, foxes: acc.foxes + 1 });
-  // }, { rabbits: 0, foxes: 0 });
-  // console.log('rabbits/foxes', rabbits, foxes);
-
   return { agents: ags.map(ag => ({ ...ag })) };
 };
 
