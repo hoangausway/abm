@@ -80,13 +80,12 @@ const init = ({ n, w, params }) => {
 
 // { n, w, params, agents, env } -> {agents, env}
 const step = ({ n, w, params, agents, env }) => {
-  let ags = agents.map(ag => ({ ...ag }));
   let t = 0.0;
   while (t < 1.0 && agents.length > 0) {
     t += 1.0 / agents.length;
-    updateOneAgent({ n, w, params }, ags);
+    updateOneAgent({ n, w, params }, agents);
   }
-  return { agents: ags.map(ag => ({ ...ag })) };
+  return { agents };
 };
 
 const model = createModel([init, step, modelParams, nAgents, wDim]);
