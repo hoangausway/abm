@@ -10,12 +10,13 @@
 
 <div class="params">
   {#if n}
-    <VizNInput par={n} change={model.changeN} />
+    <VizNInput title="n" par={n} change={model.changeN} />
   {/if}
   {#if w}
-    <VizNInput par={w} change={model.changeW} />
+    <VizNInput title="w" par={w} change={model.changeW} />
   {/if}
   {#if params}
+    <hr />
     {#each Object.keys(params) as par}
       <VizParamInput {params} key={par} changeParams={model.changeParams} />
     {/each}

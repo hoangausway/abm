@@ -7,7 +7,8 @@ const modelParams = {
   nr: 500.0, // carrying capacity of rabbits
   r_init: 100, // initial rabbit population
   mr: 0.03, // magnitude of movement of rabbits
-  dr: 1.0, // death rate of rabbits when facing foxes
+  // dr: 1.0, // death rate of rabbits when facing foxes
+  dr: 0.95, // death rate of rabbits when facing foxes
   // rr: 0.1, // reproduction rate of rabbits
   rr: 0.5, // reproduction rate of rabbits
 
@@ -20,11 +21,8 @@ const modelParams = {
   cdsq: 0.02 * 0.02 // radius for collision detection
 };
 
-console.log(modelParams);
-
 // Helpers
 const createAgent = (type) => ({ type, x: Math.random(), y: Math.random() });
-const removeAgent = (agents, idx) => agents.splice(idx, 1);
 
 // { n, w, params, agents } -> {agents}
 const updateOneAgent = ({ n, w, params }, agents) => {
@@ -46,7 +44,9 @@ const updateOneAgent = ({ n, w, params }, agents) => {
   if (ag.y < 0) ag.y = 0;
 
   // Detecting collision and simulating death or birth
-  const neighbors = agents.filter(nb => nb.type !== ag.type && (ag.x - nb.x) ** 2 + (ag.y - nb.y) ** 2 < cdsq);
+  const neighbors = agents.filter(nb =>
+    nb.type !== ag.type && (ag.x - nb.x) ** 2 + (ag.y - nb.y) ** 2 < cdsq
+  ); // agents of OTHER type within distance of 'cdsq'
 
   if (ag.type === 'r') {
     if (neighbors.length > 0 && Math.random() < dr) {
@@ -65,7 +65,7 @@ const updateOneAgent = ({ n, w, params }, agents) => {
     return;
   }
   if (Math.random() < rf) {
-    agents.push({ ...ag }); // new agent was born
+    agents.push({ ...ag }); // new agent was born: same type, same place
   }
   return;
 };

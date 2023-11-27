@@ -1,9 +1,8 @@
 <script>
   // Simulator
-  import SimControls from '../simcontrols/SimControls.svelte';
   import model from './model';
-  import Viz from './Viz.svelte';
-  
+  import VizParams from '../common/VizParams.svelte';
+
   $: rbs =
     $model &&
     $model.agents.reduce((acc, a) => {
@@ -13,9 +12,8 @@
   $: console.log('rbs / fxs: ', rbs, fxs);
 </script>
 
-<SimControls {model} />
 <div class="viz">
-  <Viz {model} />
+  <VizParams {model} />
 </div>
 
 <style>

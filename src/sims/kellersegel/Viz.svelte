@@ -1,8 +1,9 @@
 <script>
   import { extent, scaleLinear } from 'd3';
-  import model from './model';
 
   // component props
+  export let model;
+
   export let w = 400;
   export let h = 400;
 
