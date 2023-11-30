@@ -10,10 +10,8 @@
 {#if model}
   <SimControls {model} />
   <div class="viz">
-    <div class="viz">
-      <Viz {model} />
-      <VizParams {model} />
-    </div>
+    <Viz {model} />
+    <VizParams {model} />
   </div>
 {/if}
 
