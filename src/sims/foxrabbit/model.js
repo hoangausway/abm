@@ -1,8 +1,8 @@
 import { createModel } from '../common/modelFactory';
 import { randomInt, randomUniform } from '../common/utils';
 
-const nAgents = 130;
-const wDim = 1;
+// const nAgents = 130;
+// const wDim = 1;
 const modelParams = {
   nr: 500.0, // carrying capacity of rabbits
   r_init: 100, // initial rabbit population
@@ -88,6 +88,6 @@ const step = ({ n, w, params, agents, env }) => {
   return { agents };
 };
 
-const model = createModel([init, step, modelParams, nAgents, wDim]);
+const model = createModel([init, step, modelParams]);
 
 export default model;

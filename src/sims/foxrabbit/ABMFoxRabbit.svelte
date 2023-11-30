@@ -3,13 +3,15 @@
   import SimControls from '../simcontrols/SimControls.svelte';
   import model from './model';
   import Viz from './Viz.svelte';
-  
-  $: rbs =
+
+  $: [rbs, fxs] =
     $model &&
-    $model.agents.reduce((acc, a) => {
-      return a.type === 'r' ? acc + 1 : acc;
-    }, 0);
-  $: fxs = $model && $model.agents.length - rbs;
+    $model.agents.reduce(
+      (acc, a) => {
+        return a.type === 'r' ? [acc[0] + 1, acc[1]] : [acc[0], acc[1] + 1];
+      },
+      [0, 0]
+    );
   $: console.log('rbs / fxs: ', rbs, fxs);
 </script>
 
