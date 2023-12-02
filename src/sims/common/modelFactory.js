@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-export const createModel = ([init, step, modelParams]) => {
+export const createModel = ([init, step, modelParams, staticParams]) => {
   let params = { ...modelParams };
 
   let env = []; // environment 2D rray !!! to be generalized for othe topologies
@@ -40,10 +40,10 @@ export const createModel = ([init, step, modelParams]) => {
   // TO REVIEW HOW TO APPLY CHANGES OF 'n' and 'w'.
   // n and w should not change while in step function running!
   const changeParams = (newParams) => {
-    params = { ...newParams };
+    params = { ...params, ...newParams };
     set(({ params, agents, env }));
   };
 
-  return { subscribe, init: modelInit, step: modelStep, dispose, changeParams };
+  return { subscribe, init: modelInit, step: modelStep, dispose, changeParams, staticParams };
 };
 

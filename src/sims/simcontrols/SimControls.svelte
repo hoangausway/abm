@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { createSimStore } from '../common/simStoreFactory';
+  import VizParamInput from '../common/VizParamInput.svelte';
 
   export let model;
 
@@ -9,6 +10,8 @@
   $: isRunning = $sim.running;
   $: step = $sim.step;
   $: timeInterval = $sim.timeInterval;
+
+  $: modelSpecialInputs = model.staticParams();
 
   let elmInput;
 
@@ -57,6 +60,16 @@
         />
         <kbd on:click={changeTimeInterval}>{timeInterval}</kbd>
       </div>
+    </form>
+    <form>
+      {#each modelSpecialInputs as iName}
+        <VizParamInput
+          params={$model.params}
+          key={iName}
+          changeParams={model.changeParams}
+          {isRunning}
+        />
+      {/each}
     </form>
   </article>
 {/if}

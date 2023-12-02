@@ -5,14 +5,14 @@ import { randomInt, randomUniform } from '../common/utils';
 // const wDim = 1;
 const modelParams = {
   nr: 500.0, // carrying capacity of rabbits
-  r_init: 100, // initial rabbit population
+  nR: 100, // initial rabbit population
   mr: 0.03, // magnitude of movement of rabbits
   // dr: 1.0, // death rate of rabbits when facing foxes
   dr: 0.95, // death rate of rabbits when facing foxes
   // rr: 0.1, // reproduction rate of rabbits
   rr: 0.5, // reproduction rate of rabbits
 
-  f_init: 30, // initial fox population
+  nF: 30, // initial fox population
   mf: 0.05, // magnitude of movement of foxes
   df: 0.1, // death rate of foxes when there is no food
   // rf: 0.5, // reproduction rate of foxes
@@ -20,6 +20,9 @@ const modelParams = {
 
   cdsq: 0.02 * 0.02 // radius for collision detection
 };
+
+const staticParams = () => ['nR', 'nF'];
+
 
 // Helpers
 const createAgent = (type) => ({ type, x: Math.random(), y: Math.random() });
@@ -72,9 +75,9 @@ const updateOneAgent = ({ n, w, params }, agents) => {
 
 // { n, w, params } -> {agents, env}
 const init = ({ n, w, params }) => {
-  const { r_init, f_init } = params; // r_init + f_init should equal nAgents
-  const rabbits = Array.from({ length: r_init }, () => createAgent('r'));
-  const foxes = Array.from({ length: f_init }, () => createAgent('f'));
+  const { nR, nF } = params; // nR + nF should equal nAgents
+  const rabbits = Array.from({ length: nR }, () => createAgent('r'));
+  const foxes = Array.from({ length: nF }, () => createAgent('f'));
   return { agents: rabbits.concat(foxes) };
 };
 
@@ -88,6 +91,6 @@ const step = ({ n, w, params, agents, env }) => {
   return { agents };
 };
 
-const model = createModel([init, step, modelParams]);
+const model = createModel([init, step, modelParams, staticParams]);
 
 export default model;

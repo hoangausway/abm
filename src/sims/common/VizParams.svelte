@@ -2,15 +2,21 @@
   import VizParamInput from './VizParamInput.svelte';
 
   export let model;
-  $: params = $model.params;
+
+  const staticParams = model.staticParams();
+  $: inputParams = Object.keys($model.params).reduce((acc, par) => {
+    return staticParams.includes(par)
+      ? acc
+      : { ...acc, [par]: $model.params[par] };
+  }, {});
   $: changeParams = model.changeParams;
 </script>
 
 <div class="params">
-  {#if params}
+  {#if inputParams}
     <hr />
-    {#each Object.keys(params) as par}
-      <VizParamInput {params} key={par} {changeParams} />
+    {#each Object.keys(inputParams) as par}
+      <VizParamInput params={inputParams} key={par} {changeParams} />
     {/each}
   {/if}
 </div>

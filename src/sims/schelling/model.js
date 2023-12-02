@@ -2,6 +2,7 @@ import { createModel } from '../common/modelFactory';
 import { randomInt } from '../common/utils';
 
 const modelParams = { n: 500, r: 0.1, th: 0.5 };
+const staticParams = () => ['n'];
 
 // behaviors
 // Helpers
@@ -41,6 +42,6 @@ const step = ({ params, agents, env }) => {
   return { agents };
 };
 
-const model = createModel([init, step, modelParams]);
+const model = createModel([init, step, modelParams, staticParams]);
 
 export default model;

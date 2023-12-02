@@ -12,18 +12,16 @@ const modelParams = {
   f: 1 // rate of cAMP secretion by an agent
 };
 
-const staticWhileRunning = ['n', 'w'];
+const staticParams = () => ['n', 'w'];
 
 // Helpers
 const createAgent = (size) => ({ x: randomInt(size), y: randomInt(size) });
-const createAgents = (n, w) => Array.from({ length: n }, () => createAgent(w));
-const createEnv = (size) => Array.from({ length: size }, () => Array.from({ length: size }, () => 0));
 
 // { n, w, params } -> {agents, env}
 const init = ({ params }) => {
   const { n, w } = params;
-  const env = createEnv(w);
-  const agents = createAgents(n, w);
+  const env = Array.from({ length: w }, () => Array.from({ length: w }, () => 0));
+  const agents = Array.from({ length: n }, () => createAgent(w));
   return { env, agents };
 };
 
@@ -69,6 +67,6 @@ const step = ({ params, agents, env }) => {
   return { env, agents };
 };
 
-const model = createModel([init, step, modelParams, staticWhileRunning]);
+const model = createModel([init, step, modelParams, staticParams]);
 
 export default model;

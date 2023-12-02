@@ -2,6 +2,7 @@
   export let params;
   export let key;
   export let changeParams;
+  export let isRunning = false;
 
   let elm;
 
@@ -13,7 +14,7 @@
 
 <div class="changes">
   <div>{key}</div>
-  <input value={params[key]} bind:this={elm} />
+  <input value={params[key]} bind:this={elm} disabled={isRunning} />
   <kbd on:click={change}>{params[key]}</kbd>
 </div>
 
