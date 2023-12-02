@@ -1,13 +1,14 @@
 <script>
+  import VizParams from '../common/VizParams.svelte';
+
   // Simulator
   import SimControls from '../simcontrols/SimControls.svelte';
   import model from './model';
-  import Viz from './Viz.svelte';
 </script>
 
 <SimControls {model} />
 <div class="viz">
-  <Viz {model} />
+  <VizParams {model} />
 </div>
 
 <style>

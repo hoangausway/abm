@@ -1,18 +1,13 @@
 <script>
   // Simulator
-  import SimControls from '../simcontrols/SimControls.svelte';
   import model from './model';
-  import VizParams from '../common/VizParams.svelte';
+  import Viz from './Viz.svelte';
 </script>
 
-<!-- svelte-ignore empty-block -->
-{#if model}
-  <SimControls {model} />
-{/if}
-
 <div class="viz">
-  <VizParams {model} />
+  <Viz {model} />
 </div>
+
 <style>
   .viz {
     display: flex;

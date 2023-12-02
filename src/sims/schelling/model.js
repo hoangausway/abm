@@ -7,15 +7,15 @@ const staticParams = () => ['n'];
 // behaviors
 // Helpers
 const createAgent = () => ({ type: randomInt(2), x: Math.random(), y: Math.random() });
-const createAgents = (n) => Array.from({ length: n }, () => createAgent());
 
 // { n, w, params } -> {agents, env}
 const init = ({ params }) => {
-  return { agents: createAgents(params.n) };
+  const agents = Array.from({ length: params.n }, () => createAgent());
+  return { agents };
 };
 
 // { n, w, params, agents, env } -> {agents, env}
-const step = ({ params, agents, env }) => {
+const step = ({ params, agents }) => {
   const { r, th } = params;
 
   // pick a random agent
