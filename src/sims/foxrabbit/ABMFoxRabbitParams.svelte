@@ -9,7 +9,7 @@
       return a.type === 'r' ? acc + 1 : acc;
     }, 0);
   $: fxs = $model && $model.agents.length - rbs;
-  $: console.log('rbs / fxs: ', rbs, fxs);
+  $: console.log('rbs / fxs: ', rbs, fxs, fxs > 0? (rbs/fxs).toFixed(2) : 'NO FOXES');
 </script>
 
 <div class="viz">

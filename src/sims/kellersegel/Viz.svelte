@@ -21,7 +21,7 @@
 
   $: agents = $model.agents;
   $: env = $model.env;
-  $: size = $model.w;
+  $: size = $model.params.w;
   $: max = env.reduce((acc, arr) => {
     const arrMax = Math.max(...arr);
     return acc < arrMax ? arrMax : acc;

@@ -4,40 +4,40 @@
 
   export let model;
 
-  const simulator = createSimStore();
+  const sim = createSimStore();
 
-  $: isRunning = $simulator.running;
-  $: step = $simulator.step;
-  $: timeInterval = $simulator.timeInterval;
+  $: isRunning = $sim.running;
+  $: step = $sim.step;
+  $: timeInterval = $sim.timeInterval;
 
   let elmInput;
 
   const startHandler = () => {
-    simulator.runOrPause(model);
+    sim.runOrPause(model);
   };
 
   const stepOnceHandler = () => {
-    simulator.stepOnce(model);
+    sim.stepOnce(model);
   };
 
   const resetHandler = () => {
-    simulator.reset(model);
+    sim.reset(model);
   };
 
   const changeTimeInterval = () => {
     const value = parseInt(elmInput.value);
     if (typeof value === 'number' && value >= 0) {
-      simulator.changeTimeInterval(value);
+      sim.changeTimeInterval(value);
     }
   };
 
   onMount(() => {
-    simulator.init(model);
-    return () => simulator.destroy(model);
+    sim.init(model);
+    return () => sim.destroy(model);
   });
 </script>
 
-{#if simulator}
+{#if sim}
   <article>
     <div class="controls">
       <button on:click={startHandler}> {isRunning ? 'Pause' : 'Run'} </button>

@@ -2,9 +2,9 @@ import { createModel } from '../common/modelFactory';
 import { randomInt } from '../common/utils';
 
 // initial parameters
-const nAgents = 1000;
-const wDim = 100; // number of rows/columns in spatial array
 const modelParams = {
+  n: 1000,
+  w: 100,
   k: 1, // rate of cAMP decay
   Dc: 0.001, // diffusion constant of cAMP
   Dh: 0.01, // spatial resolution for cAMP simulation
@@ -12,21 +12,24 @@ const modelParams = {
   f: 1 // rate of cAMP secretion by an agent
 };
 
+const staticWhileRunning = ['n', 'w'];
+
 // Helpers
 const createAgent = (size) => ({ x: randomInt(size), y: randomInt(size) });
 const createAgents = (n, w) => Array.from({ length: n }, () => createAgent(w));
 const createEnv = (size) => Array.from({ length: size }, () => Array.from({ length: size }, () => 0));
 
 // { n, w, params } -> {agents, env}
-const init = ({ n, w, params }) => {
+const init = ({ params }) => {
+  const { n, w } = params;
   const env = createEnv(w);
   const agents = createAgents(n, w);
   return { env, agents };
 };
 
 // { n, w, params, agents, env } -> {agents, env}
-const step = ({ n, w, params, agents, env }) => {
-  const { Dh, Dc, Dt, k, f } = params;
+const step = ({ params, agents, env }) => {
+  const { n, w, Dh, Dc, Dt, k, f } = params;
 
   // Simulating diffusion and evaporation of cAMP
   for (let x = 0; x < w; x++) {
@@ -66,6 +69,6 @@ const step = ({ n, w, params, agents, env }) => {
   return { env, agents };
 };
 
-const model = createModel([init, step, modelParams, nAgents, wDim]);
+const model = createModel([init, step, modelParams, staticWhileRunning]);
 
 export default model;

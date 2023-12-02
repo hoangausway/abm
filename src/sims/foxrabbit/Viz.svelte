@@ -31,7 +31,6 @@
     .domain(extent(agents, yAccessor))
     .range([mainHeight, 0]);
 </script>
-
 <div class="viz">
   <figure style={`width: ${w}px; height: ${h}px`}>
     <svg viewBox={`0 0 ${w} ${h}`}>

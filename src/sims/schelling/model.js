@@ -1,10 +1,7 @@
 import { createModel } from '../common/modelFactory';
 import { randomInt } from '../common/utils';
 
-// initial parameters
-const nAgents = 500;
-const wDim = 1; // number of rows/columns in spatial array
-const modelParams = { r: 0.1, th: 0.5 };
+const modelParams = { n: 500, r: 0.1, th: 0.5 };
 
 // behaviors
 // Helpers
@@ -12,12 +9,12 @@ const createAgent = () => ({ type: randomInt(2), x: Math.random(), y: Math.rando
 const createAgents = (n) => Array.from({ length: n }, () => createAgent());
 
 // { n, w, params } -> {agents, env}
-const init = ({ n, w, params }) => {
-  return { agents: createAgents(n) };
+const init = ({ params }) => {
+  return { agents: createAgents(params.n) };
 };
 
 // { n, w, params, agents, env } -> {agents, env}
-const step = ({ n, w, params, agents, env }) => {
+const step = ({ params, agents, env }) => {
   const { r, th } = params;
 
   // pick a random agent
@@ -44,6 +41,6 @@ const step = ({ n, w, params, agents, env }) => {
   return { agents };
 };
 
-const model = createModel([init, step, modelParams, nAgents, wDim]);
+const model = createModel([init, step, modelParams]);
 
 export default model;

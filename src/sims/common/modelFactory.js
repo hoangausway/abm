@@ -1,34 +1,32 @@
 import { writable } from 'svelte/store';
 
-export const createModel = ([init, step, modelParams, nAgents, wDim]) => {
-  let n = nAgents;
-  let w = wDim; // number of rows/columns in spatial array. To be redefined for xDim and yDim
+export const createModel = ([init, step, modelParams]) => {
   let params = { ...modelParams };
 
   let env = []; // environment 2D rray !!! to be generalized for othe topologies
   let agents = []; // agents array
 
-  const store = writable({ params, n, w, agents, env });
+  const store = writable({ params, agents, env });
   const { subscribe, set } = store;
 
   const modelInit = async () => {
-    return Promise.resolve({ n, w, params })
+    return Promise.resolve({ params })
       .then(init) // data -> {agents, env}
       .then(response => {
         agents = response.agents;
         env = response.env;
-        set({ params, n, w, agents, env });
+        set({ params, agents, env });
       })
       .catch(console.log);
   };
 
   const modelStep = async () => {
-    return Promise.resolve({ params, n, w, agents, env })
+    return Promise.resolve({ params, agents, env })
       .then(step) // data -> {agents, env}
       .then(response => {
         agents = response.agents;
         env = response.env;
-        set({ params, n, w, agents, env });
+        set({ params, agents, env });
       })
       .catch(console.log);
   };
@@ -39,21 +37,13 @@ export const createModel = ([init, step, modelParams, nAgents, wDim]) => {
     env = [];
   };
 
+  // TO REVIEW HOW TO APPLY CHANGES OF 'n' and 'w'.
+  // n and w should not change while in step function running!
   const changeParams = (newParams) => {
     params = { ...newParams };
-    set(({ params, n, w, agents, env }));
+    set(({ params, agents, env }));
   };
 
-  const changeN = (N) => {
-    n = N;
-    set(({ params, n, w, agents, env }));
-  };
-
-  const changeW = (W) => {
-    w = W;
-    set(({ params, n, w, agents, env }));
-  };
-
-  return { subscribe, init: modelInit, step: modelStep, dispose, changeParams, changeN, changeW };
+  return { subscribe, init: modelInit, step: modelStep, dispose, changeParams };
 };
 
