@@ -1,33 +1,46 @@
 import { writable } from 'svelte/store';
+import createWorker from './worker';
+import { randomInt, randomUniform } from '../common/utils';
+
+// to be dynamically injecting helper scripts
+const helperScripts = [randomInt, randomUniform].map(fn => ({ name: fn.name, value: fn }));
 
 export const createModel = ([init, step, modelParams, staticParams]) => {
+  // initialise model's data
   let params = { ...modelParams };
-
-  let env = []; // environment 2D rray !!! to be generalized for othe topologies
+  let env = []; // environment 2D rray !!! to be generalized for other topologies
   let agents = []; // agents array
 
+  // def model store
   const store = writable({ params, agents, env });
   const { subscribe, set } = store;
 
+  // inline workers for init function and step function
+  const workerInit = createWorker(
+    (e) => postMessage(init(e.data)),
+    [...helperScripts, { name: init.name, value: init }]);
+
+  const workerStep = createWorker(
+    (e) => postMessage(step(e.data)),
+    [...helperScripts, { name: step.name, value: step }]);
+
+  // Helper function
+  const update = (params, data) => {
+    agents = data.agents;
+    env = data.env;
+    set({ params, agents, env });
+  };
+
+  // model API functions
   const modelInit = async () => {
-    return Promise.resolve({ params })
-      .then(init) // data -> {agents, env}
-      .then(response => {
-        agents = response.agents;
-        env = response.env;
-        set({ params, agents, env });
-      })
+    return workerInit.run({ params })
+      .then(({ data }) => update(params, data))
       .catch(console.log);
   };
 
   const modelStep = async () => {
-    return Promise.resolve({ params, agents, env })
-      .then(step) // data -> {agents, env}
-      .then(response => {
-        agents = response.agents;
-        env = response.env;
-        set({ params, agents, env });
-      })
+    return workerStep.run({ params, agents, env })
+      .then(({ data }) => update(params, data))
       .catch(console.log);
   };
 
@@ -35,6 +48,8 @@ export const createModel = ([init, step, modelParams, staticParams]) => {
     console.log('Discard model');
     agents = [];
     env = [];
+    workerInit && workerInit.terminate();
+    workerStep && workerStep.terminate();
   };
 
   // TO REVIEW HOW TO APPLY CHANGES OF 'n' and 'w'.

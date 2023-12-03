@@ -13,8 +13,7 @@
 </script>
 
 <div class="viz">
-  <p>Rbs: {rbs}</p>
-  <p>Fxs: {fxs}</p>
+  <p>Rbs: {rbs} | Fxs: {fxs}</p>
   <p>Rbs/Fxs: {rbsPerFxs}</p>
   <Viz {model} />
 </div>

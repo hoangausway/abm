@@ -4,17 +4,16 @@ import { randomInt } from '../common/utils';
 const modelParams = { n: 500, r: 0.1, th: 0.5 };
 const staticParams = () => ['n'];
 
-// behaviors
+// { params } -> {agents, env}
+const init = ({ params }) => {
 // Helpers
 const createAgent = () => ({ type: randomInt(2), x: Math.random(), y: Math.random() });
 
-// { n, w, params } -> {agents, env}
-const init = ({ params }) => {
   const agents = Array.from({ length: params.n }, () => createAgent());
   return { agents };
 };
 
-// { n, w, params, agents, env } -> {agents, env}
+// { params, agents, env } -> {agents, env}
 const step = ({ params, agents }) => {
   const { r, th } = params;
 

@@ -14,18 +14,18 @@ const modelParams = {
 
 const staticParams = () => ['n', 'w'];
 
-// Helpers
-const createAgent = (size) => ({ x: randomInt(size), y: randomInt(size) });
-
-// { n, w, params } -> {agents, env}
+// { params } -> {agents, env}
 const init = ({ params }) => {
+  // Helpers
+  const createAgent = (size) => ({ x: randomInt(size), y: randomInt(size) });
+
   const { n, w } = params;
   const env = Array.from({ length: w }, () => Array.from({ length: w }, () => 0));
   const agents = Array.from({ length: n }, () => createAgent(w));
   return { env, agents };
 };
 
-// { n, w, params, agents, env } -> {agents, env}
+// { params, agents, env } -> {agents, env}
 const step = ({ params, agents, env }) => {
   const { n, w, Dh, Dc, Dt, k, f } = params;
 
