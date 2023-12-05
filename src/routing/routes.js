@@ -4,32 +4,24 @@ import Login from '../components/Login.svelte';
 import Home from '../components/Home.svelte';
 import Private from '../components/Private.svelte';
 
-import ABMFoxRabbit from '../sims/foxrabbit/ABMFoxRabbit.svelte';
-import VizFoxRabbit from '../sims/foxrabbit/VizFoxRabbit.svelte';
-
-import ABMSchelling from '../sims/schelling/ABMSchelling.svelte';
-import VizSchelling from '../sims/schelling/VizSchelling.svelte'
-
-import ABMKellerSegel from '../sims/kellersegel/ABMKellerSegel.svelte';
-import VizKellerSegal from '../sims/kellersegel/VizKellerSegal.svelte'
+import Schelling from '../sims/schelling/Schelling.svelte';
+import KellerSegel from '../sims/kellersegel/KellerSegel.svelte';
+import FoxRabbit from '../sims/foxrabbit/FoxRabbit.svelte';
 
 export const loginPath = '/login';
 
 const onlineRoutes = {
   '/abm/schelling': {
-    component: ABMSchelling,
-    left: ABMSchelling,
-    right: VizSchelling
+    component: Schelling,
   },
   '/abm/kellersegel': {
-    component: ABMKellerSegel,
-    left: ABMKellerSegel,
-    right: VizKellerSegal
+    component: KellerSegel
+  },
+  '/abm/foxrabbit': {
+    component: FoxRabbit
   },
   '/': {
-    component: Home,
-    left: ABMFoxRabbit,
-    right: VizFoxRabbit
+    component: Home
   },
   '/private': {
     component: Private,

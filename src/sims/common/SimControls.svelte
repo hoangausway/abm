@@ -1,30 +1,28 @@
 <script>
   import { onMount } from 'svelte';
-  import { createSimStore } from '../common/simStoreFactory';
-  import VizParamInput from '../common/VizParamInput.svelte';
+  import VizParamInput from './VizParamInput.svelte';
 
-  export let model;
-
-  const sim = createSimStore();
+  export let asyncModel;
+  export let sim;
 
   $: isRunning = $sim.running;
   $: step = $sim.step;
   $: timeInterval = $sim.timeInterval;
 
-  $: modelSpecialInputs = model.staticParams();
+  $: modelSpecialInputs = asyncModel.staticParams();
 
   let elmInput;
 
   const startHandler = () => {
-    sim.runOrPause(model);
+    sim.runOrPause(asyncModel);
   };
 
   const stepOnceHandler = () => {
-    sim.stepOnce(model);
+    sim.stepOnce(asyncModel);
   };
 
   const resetHandler = () => {
-    sim.reset(model);
+    sim.reset(asyncModel);
   };
 
   const changeTimeInterval = () => {
@@ -35,8 +33,8 @@
   };
 
   onMount(() => {
-    sim.init(model);
-    return () => sim.destroy(model);
+    sim.init(asyncModel);
+    return () => sim.destroy(asyncModel);
   });
 </script>
 
@@ -58,15 +56,15 @@
           bind:this={elmInput}
           placeholder="Time Interval"
         />
-        <kbd on:click={changeTimeInterval}>{timeInterval}</kbd>
+        <button on:click|preventDefault={changeTimeInterval}>{timeInterval}</button>
       </div>
     </form>
     <form>
       {#each modelSpecialInputs as iName}
         <VizParamInput
-          params={$model.params}
+          params={$asyncModel.params}
           key={iName}
-          changeParams={model.changeParams}
+          changeParams={asyncModel.changeParams}
           {isRunning}
         />
       {/each}
@@ -98,12 +96,15 @@
   .info .time > input {
     width: 5em;
     height: 1.8em;
-    margin-top: 16px;
-    margin-right: 6px;
+    margin: 16px 6px;
+    font-size: 0.8rem;
   }
-  .info .time > kbd {
-    width: 5em;
+  .info .time > button {
+    width: 6em;
     text-align: center;
+    font-family: monospace;
+    font-size: 0.8rem;
+    background-color: darkblue;
   }
   .info .step {
     display: flex;

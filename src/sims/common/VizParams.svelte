@@ -1,15 +1,15 @@
 <script>
   import VizParamInput from './VizParamInput.svelte';
 
-  export let model;
+  export let asyncModel;
 
-  const staticParams = model.staticParams();
-  $: inputParams = Object.keys($model.params).reduce((acc, par) => {
+  const staticParams = asyncModel.staticParams();
+  $: inputParams = Object.keys($asyncModel.params).reduce((acc, par) => {
     return staticParams.includes(par)
       ? acc
-      : { ...acc, [par]: $model.params[par] };
+      : { ...acc, [par]: $asyncModel.params[par] };
   }, {});
-  $: changeParams = model.changeParams;
+  $: changeParams = asyncModel.changeParams;
 </script>
 
 <div class="params">

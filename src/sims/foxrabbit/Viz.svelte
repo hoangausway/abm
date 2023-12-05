@@ -2,7 +2,7 @@
   import { extent, scaleLinear } from 'd3';
   
   // component props
-  export let model;
+  export let asyncModel;
   export let w = 400;
   export let h = 400;
   export let rabbitColor = 'red';
@@ -21,7 +21,7 @@
   const yAccessor = (d) => d.y;
   const fillColor = (type) => (type === 'r' ? rabbitColor : foxColor);
 
-  $: agents = $model.agents;
+  $: agents = $asyncModel.agents;
 
   $: xScale = scaleLinear()
     .domain(extent(agents, xAccessor))

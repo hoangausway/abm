@@ -7,11 +7,8 @@
   const models = [
     { model: 'schelling', title: 'Schelling' },
     { model: 'kellersegel', title: 'Keller-Segel' },
+    { model: 'foxrabbit', title: 'Fox Rabbit' },
   ];
-  let selected;
-  const selectModel = () => {
-    page.redirect(`/abm/${selected.model}`);
-  };
 </script>
 
 <!-- Nav -->
@@ -22,12 +19,20 @@
   <ul>
     <li><a href="/">Home</a></li>
     <li>
-      <select bind:value={selected} on:change={selectModel}>
-        <option disabled>Select Model</option>
-        {#each models as model}
-          <option value={model}>{model.title}</option>
-        {/each}
-      </select>
+      <details role="list">
+        <summary aria-haspopup="listbox" role="button" class="secondary">
+          Model
+        </summary>
+        <ul role="listbox">
+          {#each models as model}
+            <li>
+              <a href={`/abm/${model.model}`}>
+                {model.title}
+              </a>
+            </li>
+          {/each}
+        </ul>
+      </details>
     </li>
     <li><a href="#" on:click|preventDefault={toggleMode}><GearIcon /></a></li>
   </ul>

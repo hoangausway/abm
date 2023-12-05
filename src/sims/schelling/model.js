@@ -6,8 +6,8 @@ const staticParams = () => ['n'];
 
 // { params } -> {agents, env}
 const init = ({ params }) => {
-// Helpers
-const createAgent = () => ({ type: randomInt(2), x: Math.random(), y: Math.random() });
+  // Helpers
+  const createAgent = () => ({ type: randomInt(2), x: Math.random(), y: Math.random() });
 
   const agents = Array.from({ length: params.n }, () => createAgent());
   return { agents };
@@ -41,6 +41,7 @@ const step = ({ params, agents }) => {
   return { agents };
 };
 
-const model = createModel([init, step, modelParams, staticParams]);
+// const model = createModel([init, step, modelParams, staticParams]);
 
-export default model;
+// export default model;
+export default [init, step, modelParams, staticParams];

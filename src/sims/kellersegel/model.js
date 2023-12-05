@@ -67,6 +67,4 @@ const step = ({ params, agents, env }) => {
   return { env, agents };
 };
 
-const model = createModel([init, step, modelParams, staticParams]);
-
-export default model;
+export default [init, step, modelParams, staticParams];

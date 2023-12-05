@@ -2,7 +2,7 @@
   import { extent, scaleLinear } from 'd3';
 
   // component props
-  export let model;
+  export let asyncModel;
 
   export let w = 400;
   export let h = 400;
@@ -19,9 +19,9 @@
   const xAccessor = (d) => d.x;
   const yAccessor = (d) => d.y;
 
-  $: agents = $model.agents;
-  $: env = $model.env;
-  $: size = $model.params.w;
+  $: agents = $asyncModel.agents;
+  $: env = $asyncModel.env;
+  $: size = $asyncModel.params.w;
   $: max = env.reduce((acc, arr) => {
     const arrMax = Math.max(...arr);
     return acc < arrMax ? arrMax : acc;

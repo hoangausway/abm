@@ -39,13 +39,14 @@ export const createModel = ([init, step, modelParams, staticParams]) => {
   };
 
   const modelStep = async () => {
+    console.log('modelStep workerStep', workerStep);
     return workerStep.run({ params, agents, env })
       .then(({ data }) => update(params, data))
       .catch(console.log);
   };
 
   const dispose = () => {
-    console.log('Discard model');
+    console.log('Discard model: empty agents and env array; terminate the workers');
     agents = [];
     env = [];
     workerInit && workerInit.terminate();
