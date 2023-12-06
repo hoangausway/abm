@@ -1,4 +1,3 @@
-import { createModel } from '../common/modelFactory';
 import { randomInt, randomUniform } from '../common/utils';
 
 // name

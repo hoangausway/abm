@@ -1,4 +1,3 @@
-import { createModel } from '../common/modelFactory';
 import { randomInt } from '../common/utils';
 
 const title = 'Schelling';
