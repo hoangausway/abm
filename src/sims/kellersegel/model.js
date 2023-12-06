@@ -1,7 +1,10 @@
 import { createModel } from '../common/modelFactory';
 import { randomInt } from '../common/utils';
 
-// initial parameters
+// name
+const title = 'Keller-Segel';
+
+// def model params
 const modelParams = {
   n: 1000,
   w: 100,
@@ -67,4 +70,4 @@ const step = ({ params, agents, env }) => {
   return { env, agents };
 };
 
-export default [init, step, modelParams, staticParams];
+export default [init, step, modelParams, staticParams, title];

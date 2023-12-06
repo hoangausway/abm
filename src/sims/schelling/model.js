@@ -1,6 +1,7 @@
 import { createModel } from '../common/modelFactory';
 import { randomInt } from '../common/utils';
 
+const title = 'Schelling';
 const modelParams = { n: 500, r: 0.1, th: 0.5 };
 const staticParams = () => ['n'];
 
@@ -44,4 +45,4 @@ const step = ({ params, agents }) => {
 // const model = createModel([init, step, modelParams, staticParams]);
 
 // export default model;
-export default [init, step, modelParams, staticParams];
+export default [init, step, modelParams, staticParams, title];

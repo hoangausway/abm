@@ -13,22 +13,56 @@
 </script>
 
 <div class="changes">
-  <div>{key}</div>
-  <input value={params[key]} bind:this={elm} disabled={isRunning} />
-  <kbd on:click={change}>{params[key]}</kbd>
+  <span>{key}</span>
+  <div>
+    <input
+      value={params[key]}
+      bind:this={elm}
+      disabled={isRunning}
+    />
+    <button on:click|preventDefault={change}>
+      {params[key]}
+    </button>
+  </div>
 </div>
 
 <style>
   .changes {
     width: 100%;
-    display: grid;
-    grid-template-columns: 20% 60% 20%;
-    grid-gap: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5rem;
+    margin-left: 0;
+  }
+  .changes > span {
+    display: block;
+    /* margin-right: 6px; */
+    font-family: monospace;
+    font-size: 0.75rem;
+  }
+  .changes > div {
+    width: 12rem;
+    display: flex;
+    justify-content: flex-end;
     align-items: center;
   }
-  .changes > input {
-    height: 28px;
-    margin-top: 16px;
-    margin-right: 6px;
+  .changes > div > input {
+    height: 2rem;
+    margin: 0px 6px;
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    text-align: right;
+    font-family: monospace;
+    font-size: 0.75rem;
+  }
+  .changes > div > button {
+    width: 6rem;
+    height: 2rem;
+    line-height: 0.5;
+    font-family: monospace;
+    font-size: 0.75rem;
+    background-color: var(--pico-secondary);
   }
 </style>

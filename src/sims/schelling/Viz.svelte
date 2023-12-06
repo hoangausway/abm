@@ -33,7 +33,8 @@
     .range([mainHeight, 0]);
 </script>
 
-<div class="viz">
+<!-- class container makes this div centered in his parent -->
+<div class='viz'>
   <figure style={`width: ${w}px; height: ${h}px`}>
     <svg viewBox={`0 0 ${w} ${h}`}>
       <g style={move(margins.top, margins.left)}>
@@ -59,6 +60,6 @@
 
   figure {
     background-color: whitesmoke;
-    box-shadow: 3px 3px lightgray;
+    box-shadow: 5px 5px lightgray;
   }
 </style>

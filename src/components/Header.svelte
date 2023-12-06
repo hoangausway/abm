@@ -19,7 +19,7 @@
   <ul>
     <li><a href="/">Home</a></li>
     <li>
-      <details role="list">
+      <details class='dropdown'>
         <summary aria-haspopup="listbox" role="button" class="secondary">
           Model
         </summary>

@@ -5,7 +5,7 @@ import { randomInt, randomUniform } from '../common/utils';
 // to be dynamically injecting helper scripts
 const helperScripts = [randomInt, randomUniform].map(fn => ({ name: fn.name, value: fn }));
 
-export const createModel = ([init, step, modelParams, staticParams]) => {
+export const createModel = ([init, step, modelParams, staticParams, title]) => {
   // initialise model's data
   let params = { ...modelParams };
   let env = []; // environment 2D rray !!! to be generalized for other topologies
@@ -60,6 +60,6 @@ export const createModel = ([init, step, modelParams, staticParams]) => {
     set(({ params, agents, env }));
   };
 
-  return { subscribe, init: modelInit, step: modelStep, dispose, changeParams, staticParams };
+  return { subscribe, init: modelInit, step: modelStep, dispose, changeParams, staticParams, title };
 };
 

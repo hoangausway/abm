@@ -1,41 +1,46 @@
-/* Grey Light scheme (Default) */
+/* Jade color for light color scheme (Default) */
 /* Can be forced with data-theme="light" */
-[data-theme="light"],
-:root:not([data-theme="dark"]) {
-  --primary: black;
-  --primary-hover: #616161;
-  --primary-focus: rgba(117, 117, 117, 0.125);
-  --primary-inverse: #FFF;
+[data-theme=light],
+:root:not([data-theme=dark]) {
+  --pico-text-selection-color: rgba(0, 166, 110, 0.25);
+  --pico-primary: #007a50;
+  --pico-primary-background: #007a50;
+  --pico-primary-underline: rgba(0, 122, 80, 0.5);
+  --pico-primary-hover: #005f3d;
+  --pico-primary-hover-background: #006d46;
+  --pico-primary-focus: rgba(0, 166, 110, 0.25);
+  --pico-primary-inverse: #fff;
 }
 
-/* Grey Dark scheme (Auto) */
+/* Jade color for dark color scheme (Auto) */
 /* Automatically enabled if user has Dark mode enabled */
 @media only screen and (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --primary: black;
-    --primary-hover: #9e9e9e;
-    --primary-focus: rgba(117, 117, 117, 0.25);
-    --primary-inverse: #FFF;
+    --pico-text-selection-color: rgba(0, 180, 120, 0.1875);
+    --pico-primary: #00b478;
+    --pico-primary-background: #007a50;
+    --pico-primary-underline: rgba(0, 180, 120, 0.5);
+    --pico-primary-hover: #00cc88;
+    --pico-primary-hover-background: #00895a;
+    --pico-primary-focus: rgba(0, 180, 120, 0.25);
+    --pico-primary-inverse: #fff;
   }
 }
 
-/* Grey Dark scheme (Forced) */
+/* Jade color for dark color scheme (Forced) */
 /* Enabled if forced with data-theme="dark" */
-[data-theme="dark"] {
-  --primary: #757575;
-  --primary-hover: #9e9e9e;
-  --primary-focus: rgba(117, 117, 117, 0.25);
-  --primary-inverse: #FFF;
+[data-theme=dark] {
+  --pico-text-selection-color: rgba(0, 180, 120, 0.1875);
+  --pico-primary: #00b478;
+  --pico-primary-background: #007a50;
+  --pico-primary-underline: rgba(0, 180, 120, 0.5);
+  --pico-primary-hover: #00cc88;
+  --pico-primary-hover-background: #00895a;
+  --pico-primary-focus: rgba(0, 180, 120, 0.25);
+  --pico-primary-inverse: #fff;
 }
-
-/* Grey (Common styles) */
-:root {
-  --form-element-active-border-color: var(--primary);
-  --form-element-focus-color: var(--primary-focus);
-  --switch-color: var(--primary-inverse);
-  --switch-checked-background-color: var(--primary);
-}
-
-button {
-  line-height: 0.5;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }

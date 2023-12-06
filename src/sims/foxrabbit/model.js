@@ -1,6 +1,9 @@
 import { createModel } from '../common/modelFactory';
 import { randomInt, randomUniform } from '../common/utils';
 
+// name
+const title = 'Foxes-Rabbits';
+
 // def model params
 const modelParams = {
   nr: 500.0, // carrying capacity of rabbits
@@ -90,4 +93,4 @@ const step = ({ params, agents, env }) => {
   return { agents };
 };
 
-export default [init, step, modelParams, staticParams];
+export default [init, step, modelParams, staticParams, title];

@@ -4,6 +4,7 @@
 
   // Simulator
   import SimControls from './SimControls.svelte';
+  import VizParamsSpecial from './VizParamsSpecial.svelte';
   import VizParams from '../common/VizParams.svelte';
   import { createModel } from '../common/modelFactory';
   import { createSimStore } from '../common/simStoreFactory';
@@ -14,35 +15,48 @@
   const asyncModel = createModel(model);
   const sim = createSimStore();
 
-  const handler = (e) => {
-    sim.runOrPause(asyncModel);
-  };
+  const handler = () => sim.runOrPause(asyncModel);
 </script>
 
-<div class={$smallPoint ? 'single' : 'double'}>
-  <div>
-    <SimControls {sim} {asyncModel} />
-    <VizParams {asyncModel} />
+<main>
+  <div class={$smallPoint ? 'single' : 'double'}>
+    <div class="container left">
+      <SimControls {sim} {asyncModel} />
+      <div>
+        <div>
+          <details>
+            <summary role="button" class="secondary"> Special Params </summary>
+            <VizParamsSpecial {sim} {asyncModel} />
+          </details>
+        </div>
+        <div>
+          <details>
+            <summary role="button" class="secondary">Params</summary>
+            <VizParams {asyncModel} />
+          </details>
+        </div>
+      </div>
+    </div>
+    <div class="right" on:dblclick={handler}>
+      <svelte:component this={Viz} {asyncModel} />
+    </div>
   </div>
-  <div on:dblclick={handler}>
-    <svelte:component this={Viz} {asyncModel} />
-  </div>
-</div>
+</main>
 
 <style>
   .double {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 44% 54%;
-    gap: 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
   }
-  .double :nth-child(1) {
-    overflow-y: scroll;
-    height: 95vh;
+  .double .left {
+    /* overflow-y: scroll; */
+    margin-right: 1rem;
   }
-  .double :nth-child(2) {
-    overflow-y: scroll;
-    height: 95vh;
+  .double .right {
+    /* overflow-y: scroll; */
+    margin: auto;
+    padding: 1rem;
   }
   .single {
     width: 100%;
@@ -50,5 +64,18 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+  }
+
+  main {
+    width: 100%;
+    padding: 1rem;
+  }
+  details {
+    border: 1px solid var(--pico-secondary);
+    border-radius: var(--pico-border-radius);
+    padding: var(--pico-border-radius);
+  }
+  details > summary {
+    border: none;
   }
 </style>

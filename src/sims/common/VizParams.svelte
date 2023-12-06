@@ -9,24 +9,31 @@
       ? acc
       : { ...acc, [par]: $asyncModel.params[par] };
   }, {});
-  $: changeParams = asyncModel.changeParams;
+
+  const changeHandler = (newparams) => {
+    asyncModel.changeParams(newparams);
+  };
 </script>
 
-<div class="params">
-  {#if inputParams}
-    <hr />
+{#if inputParams}
+  <div class="params">
     {#each Object.keys(inputParams) as par}
-      <VizParamInput params={inputParams} key={par} {changeParams} />
+      <VizParamInput
+        params={inputParams}
+        key={par}
+        changeParams={changeHandler}
+      />
     {/each}
-  {/if}
-</div>
+  </div>
+{/if}
 
 <style>
   .params {
-    padding: 0.7em;
+    width: 100%;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
   }
 </style>
