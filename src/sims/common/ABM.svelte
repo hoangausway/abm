@@ -22,20 +22,14 @@
   <div class={$smallPoint ? 'single' : 'double'}>
     <div class="container left">
       <SimControls {sim} {asyncModel} />
-      <div>
-        <div>
-          <details>
-            <summary role="button" class="secondary"> Special Params </summary>
-            <VizParamsSpecial {sim} {asyncModel} />
-          </details>
-        </div>
-        <div>
-          <details>
-            <summary role="button" class="secondary">Params</summary>
-            <VizParams {asyncModel} />
-          </details>
-        </div>
-      </div>
+      <details>
+        <summary role="button" class="secondary"> Special Params </summary>
+        <VizParamsSpecial {sim} {asyncModel} />
+      </details>
+      <details>
+        <summary role="button" class="secondary">Params</summary>
+        <VizParams {asyncModel} />
+      </details>
     </div>
     <div class="right" on:dblclick={handler}>
       <svelte:component this={Viz} {asyncModel} />
@@ -55,7 +49,6 @@
   }
   .double .right {
     /* overflow-y: scroll; */
-    margin: auto;
     padding: 1rem;
   }
   .single {
@@ -74,8 +67,5 @@
     border: 1px solid var(--pico-secondary);
     border-radius: var(--pico-border-radius);
     padding: var(--pico-border-radius);
-  }
-  details > summary {
-    border: none;
   }
 </style>
