@@ -84,6 +84,8 @@
   }
 
   figure {
-    box-shadow: 3px 3px lightgray;
+    background-color: white;
+    box-shadow: 5px 5px lightgray;
+    border: 1px solid gray;
   }
 </style>

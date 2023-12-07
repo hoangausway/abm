@@ -70,6 +70,7 @@
 <style>
   .container {
     margin: 1rem 0;
+    padding: 0;
   }
   .title {
     width: 100%;
@@ -123,36 +124,11 @@
   }
 
   .controls {
+    box-sizing: border-box;
+    padding-right: 0.4rem;
     display: grid;
     align-items: center;
     grid-template-columns: 35% 30% 35%;
-    column-gap: normal;
+    column-gap: 3px;
   }
-  .controls :nth-child(2) {
-    margin: 0 0.4rem;
-  }
-  /* .info {
-    margin: 0 3px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .info .time {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .info .step {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
-  .info .step :nth-child(1) {
-    width: 3em;
-  }
-  .info .step :nth-child(2) {
-    width: 5em;
-    margin-right: 1rem;
-    text-align: left;
-  } */
 </style>
