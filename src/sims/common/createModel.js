@@ -1,11 +1,14 @@
 import { writable } from 'svelte/store';
-import createWorker from './worker';
-import { randomInt, randomUniform } from '../common/utils';
+import { createWorker } from './createWorker';
+import { randomInt, randomUniform } from './utils';
 
 // to be dynamically injecting helper scripts
-const helperScripts = [randomInt, randomUniform].map(fn => ({ name: fn.name, value: fn }));
+const helperScripts = [randomInt, randomUniform];
 
 export const createModel = ([init, step, modelParams, staticParams, title]) => {
+  // title
+  title = title || 'Model name...';
+
   // initialise model's data
   let params = { ...modelParams };
   let env = []; // environment 2D rray !!! to be generalized for other topologies
@@ -16,15 +19,10 @@ export const createModel = ([init, step, modelParams, staticParams, title]) => {
   const { subscribe, set } = store;
 
   // inline workers for init function and step function
-  const workerInit = createWorker(
-    (e) => postMessage(init(e.data)),
-    [...helperScripts, { name: init.name, value: init }]);
+  const workerInit = createWorker(init, helperScripts);
+  const workerStep = createWorker(step, helperScripts);
 
-  const workerStep = createWorker(
-    (e) => postMessage(step(e.data)),
-    [...helperScripts, { name: step.name, value: step }]);
-
-  // Helper function
+  // Helper functions
   const update = (params, data) => {
     agents = data.agents;
     env = data.env;
@@ -34,12 +32,11 @@ export const createModel = ([init, step, modelParams, staticParams, title]) => {
   // model API functions
   const modelInit = async () => {
     return workerInit.run({ params })
-      .then(({ data }) => update(params, data))
-      .catch(console.log);
+      .then(({ data }) => update(params, data)) // worker.onemessage
+      .catch(console.log); // worker.onerror
   };
 
   const modelStep = async () => {
-    console.log('modelStep workerStep', workerStep);
     return workerStep.run({ params, agents, env })
       .then(({ data }) => update(params, data))
       .catch(console.log);
@@ -53,8 +50,6 @@ export const createModel = ([init, step, modelParams, staticParams, title]) => {
     workerStep && workerStep.terminate();
   };
 
-  // TO REVIEW HOW TO APPLY CHANGES OF 'n' and 'w'.
-  // n and w should not change while in step function running!
   const changeParams = (newParams) => {
     params = { ...params, ...newParams };
     set(({ params, agents, env }));

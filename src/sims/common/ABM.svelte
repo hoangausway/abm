@@ -6,11 +6,12 @@
   import SimControls from './SimControls.svelte';
   import VizParamsSpecial from './VizParamsSpecial.svelte';
   import VizParams from '../common/VizParams.svelte';
-  import { createModel } from '../common/modelFactory';
-  import { createSimStore } from '../common/simStoreFactory';
+  import { createModel } from './createModel';
+  import { createSimStore } from './createSimEngine';
 
   export let model;
   export let Viz;
+  export let Info;
 
   const asyncModel = createModel(model);
   const sim = createSimStore();
@@ -21,7 +22,7 @@
 <main>
   <div class={$smallPoint ? 'single' : 'double'}>
     <div class="container left">
-      <SimControls {sim} {asyncModel} />
+      <SimControls {sim} {asyncModel} {Info}/>
       <details>
         <summary role="button" class="secondary"> Special Params </summary>
         <VizParamsSpecial {sim} {asyncModel} />

@@ -1,9 +1,9 @@
 <script>
   import { onMount } from 'svelte';
-  import VizParamInput from './VizParamInput.svelte';
 
   export let asyncModel;
   export let sim;
+  export let Info;
 
   $: isRunning = $sim.running;
   $: step = $sim.step;
@@ -39,7 +39,7 @@
 {#if sim}
   <div class="container">
     <div class="title">
-      <span>{asyncModel.title}</span>
+      <svelte:component this={Info} {asyncModel}/>
       <div class="right">
         <div>
           <span>#:</span>
@@ -78,11 +78,6 @@
     justify-content: space-between;
     align-items: center;
     margin: 1rem 0;
-  }
-  .title > span {
-    margin-right: 2rem;
-    font-weight: bold;
-    font-size: 1rem;
   }
   .right {
     display: flex;

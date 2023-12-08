@@ -41,7 +41,4 @@ const step = ({ params, agents }) => {
   return { agents };
 };
 
-// const model = createModel([init, step, modelParams, staticParams]);
-
-// export default model;
 export default [init, step, modelParams, staticParams, title];
