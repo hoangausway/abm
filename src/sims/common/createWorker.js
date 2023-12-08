@@ -15,8 +15,8 @@ const workerFromBlob = blob => {
 
 // create worke
 export function createWorker(fn, otherFns) {
-  const deps = ([...otherFns, fn]).map(f => 'self.' + f.name + '=' + f.toString() + ';');
-  const onmessage = `self.onmessage= e => postMessage(${fn.name}(e.data));`;
+  const deps = ([...otherFns, fn]).map(f => `self.${f.name} = ${f.toString()};`);
+  const onmessage = `self.onmessage = e => postMessage(${fn.name}(e.data));`;
   const blob = new Blob([...deps, onmessage], { type: 'text/javascript' });
 
   const worker = workerFromBlob(blob);

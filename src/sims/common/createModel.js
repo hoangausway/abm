@@ -2,7 +2,7 @@ import { writable } from 'svelte/store';
 import { createWorker } from './createWorker';
 import { randomInt, randomUniform } from './utils';
 
-// to be dynamically injecting helper scripts
+// to be dynamically injecting helper scripts to worker's code
 const helperScripts = [randomInt, randomUniform];
 
 export const createModel = ([init, step, modelParams, staticParams, title]) => {
@@ -43,7 +43,7 @@ export const createModel = ([init, step, modelParams, staticParams, title]) => {
   };
 
   const dispose = () => {
-    console.log('Discard model: empty agents and env array; terminate the workers');
+    console.log('Discard model: emptying agents and env arrays; terminates the workers');
     agents = [];
     env = [];
     workerInit && workerInit.terminate();
@@ -55,6 +55,14 @@ export const createModel = ([init, step, modelParams, staticParams, title]) => {
     set(({ params, agents, env }));
   };
 
-  return { subscribe, init: modelInit, step: modelStep, dispose, changeParams, staticParams, title };
+  return {
+    subscribe,
+    init: modelInit,
+    step: modelStep,
+    dispose,
+    changeParams,
+    staticParams,
+    title
+  };
 };
 
