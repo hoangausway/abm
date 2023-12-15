@@ -8,12 +8,13 @@
   import SimControls from './SimControls.svelte';
   import VizParamsSpecial from './VizParamsSpecial.svelte';
   import VizParams from './VizParams.svelte';
-  import createAsyncModel from './createModel';
+  import createAsyncModel from './createAsyncModel';
   import { createSimStore } from './createSimEngine';
 
   export let modelPath;
   export let Viz;
   export let Info;
+  export let postStepFn = null;
 
   let asyncModel;
 
@@ -22,7 +23,7 @@
   const handler = () => sim.runOrPause(asyncModel);
 
   onMount(async () => {
-    asyncModel = await createAsyncModel(modelPath);
+    asyncModel = await createAsyncModel(modelPath, postStepFn);
   });
 </script>
 

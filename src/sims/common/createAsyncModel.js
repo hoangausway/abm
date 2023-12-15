@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 import { wrap } from 'comlink';
 
-const createAsyncModel = (path) => {
+const createAsyncModel = (path, postStepFn) => {
   const model = wrap(
     new Worker(new URL(path, import.meta.url), { type: 'module' })
   );
@@ -40,7 +40,10 @@ const createAsyncModel = (path) => {
   const step = () => {
     return model
       .step({ params, agents, env })
-      .then((data) => update(params, data))
+      .then((data) => {
+        update(params, data);
+        postStepFn && postStepFn({ params, agents, env });
+      })
       .catch(console.log); // worker.onerror
   };
 
@@ -63,7 +66,7 @@ const createAsyncModel = (path) => {
     .info()
     .then(updateInfo)
     .then(() => ({
-      subscribe,
+      subscribe, // { params, agents, env }
       init,
       step,
       dispose,

@@ -32,9 +32,7 @@ export const createSimStore = () => {
     // setup for next continuosly stepping
     console.log(`Model step ${step} done... To be scheduled for next step ${step + 1} in: ${timeInterval}`);
     if (running) {
-      timer = setTimeout(() => {
-        modelForward(model);
-      }, timeInterval);
+      timer = setTimeout(() => modelForward(model), timeInterval);
     }
   };
 

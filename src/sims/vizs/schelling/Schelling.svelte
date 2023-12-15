@@ -4,6 +4,9 @@
   import Info from './Info.svelte';
 
   const modelPath = '/src/sims/models/schelling.js';
+  const postStepFn = ({ params, agents, env }) => {
+    console.log('postStepFn Schelling model');
+  };
 </script>
 
-<Abm {modelPath} {Viz} {Info}/>
+<Abm {modelPath} {Viz} {Info} {postStepFn} />

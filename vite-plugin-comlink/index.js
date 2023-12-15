@@ -1,11 +1,11 @@
 import MagicString from "magic-string";
 import { normalizePath } from "vite";
 
-const strImportComlink = `import {expose} from 'comlink';\n`;
+const strImportComlink = `import { expose } from 'comlink';\n`;
 const strExpose = `expose({ info, init, step });`;
 const strComlinkWorker = 'new ComlinkWorker(url);';
 const strInsertWrap = `wrap(new Worker(url, { type: 'module' }));`;
-const strImportWrap = `import {wrap} from 'comlink';\n`;
+const strImportWrap = `import { wrap } from 'comlink';\n`;
 
 // '/.../src/models/schelling.js' -> ['schelling.js', '/.../src/models']
 const modelPath = (fullPath) => {
@@ -17,7 +17,7 @@ const transformModelCode = (code) => {
   let sMagic = new MagicString(code);
   sMagic.appendLeft(0, strImportComlink);
   sMagic.appendRight(code.length, strExpose);
-  console.log('transformModelCode sMagic', sMagic.toString());
+  console.log('transformModelCode sMagic \n', sMagic.toString());
   return {
     code: sMagic.toString(),
     map: sMagic.generateMap(),
