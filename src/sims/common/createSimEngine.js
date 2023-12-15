@@ -77,21 +77,21 @@ export const createSimStore = () => {
     step = 0;
     running = false;
     set({ running, step, timeInterval });
-    model.init();
+    await model.init();
   };
 
   const init = async (model) => {
     await model.init();
   };
 
-  const destroy = (model) => {
+  const destroy = async (model) => {
     timer = clearTimer();
     running = false;
     step = 0;
     // Keep latest timeInterval value un changed
     set({ running, step, timeInterval });
 
-    model.dispose();
+    await model.dispose();
   };
 
   const changeTimeInterval = (interval) => {

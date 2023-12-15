@@ -1,5 +1,4 @@
 <script>
-  import model from '../schelling/model';
   import VizParamInput from './VizParamInput.svelte';
 
   export let asyncModel;

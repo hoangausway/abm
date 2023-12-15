@@ -4,9 +4,9 @@ import Login from '../components/Login.svelte';
 import Home from '../components/Home.svelte';
 import Private from '../components/Private.svelte';
 
-import Schelling from '../sims/schelling/Schelling.svelte';
-import KellerSegel from '../sims/kellersegel/KellerSegel.svelte';
-import FoxRabbit from '../sims/foxrabbit/FoxRabbit.svelte';
+import Schelling from '../sims/vizs/schelling/Schelling.svelte';
+import KellerSegel from '../sims/vizs/kellersegel/KellerSegel.svelte';
+import FoxRabbit from '../sims/vizs/foxrabbit/FoxRabbit.svelte';
 
 export const loginPath = '/login';
 

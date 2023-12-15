@@ -1,7 +1,6 @@
 <script>
-  export let asyncModel;
+  export let title;
 
-  const title = asyncModel.title;
   let open = false;
 </script>
 

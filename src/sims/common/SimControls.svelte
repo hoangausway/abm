@@ -5,6 +5,7 @@
   export let sim;
   export let Info;
 
+  $: title = asyncModel && asyncModel.title();
   $: isRunning = $sim.running;
   $: step = $sim.step;
   $: timeInterval = $sim.timeInterval;
@@ -39,7 +40,7 @@
 {#if sim}
   <div class="container">
     <div class="title">
-      <svelte:component this={Info} {asyncModel}/>
+      <svelte:component this={Info} {title} />
       <div class="right">
         <div>
           <span>#:</span>

@@ -3,7 +3,6 @@
 
   // component props
   export let asyncModel;
-
   export let w = 400;
   export let h = 400;
 
@@ -42,7 +41,7 @@
   $: wScale = w / size;
 </script>
 
-{#if env}
+{#if env && $asyncModel.params.w}
   <div class="viz">
     <figure style={`width: ${w}px; height: ${h}px`}>
       <svg viewBox={`0 0 ${w} ${h}`}>

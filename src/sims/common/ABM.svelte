@@ -1,41 +1,50 @@
 <script>
+  import { onMount } from 'svelte';
+
   // 25/11/2023 HOANG moved responsive into this component
   import smallPoint from '../../stores/breakpoints';
 
   // Simulator
   import SimControls from './SimControls.svelte';
   import VizParamsSpecial from './VizParamsSpecial.svelte';
-  import VizParams from '../common/VizParams.svelte';
-  import { createModel } from './createModel';
+  import VizParams from './VizParams.svelte';
+  import createAsyncModel from './createModel';
   import { createSimStore } from './createSimEngine';
 
-  export let model;
+  export let modelPath;
   export let Viz;
   export let Info;
 
-  const asyncModel = createModel(model);
+  let asyncModel;
+
   const sim = createSimStore();
 
   const handler = () => sim.runOrPause(asyncModel);
+
+  onMount(async () => {
+    asyncModel = await createAsyncModel(modelPath);
+  });
 </script>
 
 <main>
-  <div class={$smallPoint ? 'single' : 'double'}>
-    <div class="container left">
-      <SimControls {sim} {asyncModel} {Info}/>
-      <details>
-        <summary role="button" class="secondary"> Special Params </summary>
-        <VizParamsSpecial {sim} {asyncModel} />
-      </details>
-      <details>
-        <summary role="button" class="secondary">Params</summary>
-        <VizParams {asyncModel} />
-      </details>
+  {#if asyncModel}
+    <div class={$smallPoint ? 'single' : 'double'}>
+      <div class="container left">
+        <SimControls {sim} {asyncModel} {Info} />
+        <details>
+          <summary role="button" class="secondary"> Special Params </summary>
+          <VizParamsSpecial {sim} {asyncModel} />
+        </details>
+        <details>
+          <summary role="button" class="secondary">Params</summary>
+          <VizParams {asyncModel} />
+        </details>
+      </div>
+      <div class="right" on:dblclick={handler}>
+        <svelte:component this={Viz} {asyncModel} />
+      </div>
     </div>
-    <div class="right" on:dblclick={handler}>
-      <svelte:component this={Viz} {asyncModel} />
-    </div>
-  </div>
+  {/if}
 </main>
 
 <style>

@@ -1,20 +1,19 @@
-import { randomInt } from '../common/utils';
+import { randomInt } from '@common/utils';
 
-// name
-const title = 'Keller-Segel';
-
-// def model params
-const modelParams = {
-  n: 1000,
-  w: 100,
-  k: 1, // rate of cAMP decay
-  Dc: 0.001, // diffusion constant of cAMP
-  Dh: 0.01, // spatial resolution for cAMP simulation
-  Dt: 0.01, // time resolution for cAMP simulation
-  f: 1 // rate of cAMP secretion by an agent
-};
-
-const staticParams = () => ['n', 'w'];
+// void -> {title, params, specialParams}
+const info = () => ({
+  title: 'Keller-Segel',
+  params: {
+    n: 1000,
+    w: 100,
+    k: 1, // rate of cAMP decay
+    Dc: 0.001, // diffusion constant of cAMP
+    Dh: 0.01, // spatial resolution for cAMP simulation
+    Dt: 0.01, // time resolution for cAMP simulation
+    f: 1 // rate of cAMP secretion by an agent
+  },
+  staticParams: ['n', 'w']
+});
 
 // { params } -> {agents, env}
 const init = ({ params }) => {
@@ -68,5 +67,3 @@ const step = ({ params, agents, env }) => {
   }
   return { env, agents };
 };
-
-export default [init, step, modelParams, staticParams, title];

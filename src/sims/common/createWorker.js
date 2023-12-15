@@ -1,3 +1,4 @@
+// HOANG 15/12/2023: NOT USED. JUST KEEP FOR ARCHIVING THE INLINE WORKER TECHNIQUE
 // Helpers
 const promiseFromWorker = worker => {
   return new Promise((resolve, reject) => {

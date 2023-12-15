@@ -1,14 +1,16 @@
-import { randomInt } from '../common/utils';
+import { randomInt } from '@common/utils';
 
-const title = 'Schelling';
-const modelParams = { n: 500, r: 0.1, th: 0.5 };
-const staticParams = () => ['n'];
+// void -> {title, params, specialParams}
+const info = () => ({
+  title: 'Schelling',
+  params: { n: 500, r: 0.1, th: 0.5 },
+  staticParams: ['n']
+});
 
 // { params } -> {agents, env}
 const init = ({ params }) => {
   // Helpers
   const createAgent = () => ({ type: randomInt(2), x: Math.random(), y: Math.random() });
-
   const agents = Array.from({ length: params.n }, () => createAgent());
   return { agents };
 };
@@ -40,5 +42,3 @@ const step = ({ params, agents }) => {
   }
   return { agents };
 };
-
-export default [init, step, modelParams, staticParams, title];

@@ -1,29 +1,27 @@
-import { randomInt, randomUniform } from '../common/utils';
+import { randomInt, randomUniform } from '@common/utils';
 
-// name
-const title = 'Foxes-Rabbits';
+// void -> {title, params, specialParams}
+const info = () => ({
+  title: 'Fox-Rabbit',
+  params: {
+    nr: 500.0, // carrying capacity of rabbits
+    nR: 100, // initial rabbit population
+    mr: 0.03, // magnitude of movement of rabbits
+    // dr: 1.0, // death rate of rabbits when facing foxes
+    dr: 0.95, // death rate of rabbits when facing foxes
+    // rr: 0.1, // reproduction rate of rabbits
+    rr: 0.5, // reproduction rate of rabbits
 
-// def model params
-const modelParams = {
-  nr: 500.0, // carrying capacity of rabbits
-  nR: 100, // initial rabbit population
-  mr: 0.03, // magnitude of movement of rabbits
-  // dr: 1.0, // death rate of rabbits when facing foxes
-  dr: 0.95, // death rate of rabbits when facing foxes
-  // rr: 0.1, // reproduction rate of rabbits
-  rr: 0.5, // reproduction rate of rabbits
+    nF: 30, // initial fox population
+    mf: 0.05, // magnitude of movement of foxes
+    df: 0.1, // death rate of foxes when there is no food
+    // rf: 0.5, // reproduction rate of foxes
+    rf: 0.1, // reproduction rate of foxes
 
-  nF: 30, // initial fox population
-  mf: 0.05, // magnitude of movement of foxes
-  df: 0.1, // death rate of foxes when there is no food
-  // rf: 0.5, // reproduction rate of foxes
-  rf: 0.1, // reproduction rate of foxes
-
-  cdsq: 0.02 * 0.02 // radius for collision detection
-};
-
-// def model [arams which should be static while running
-const staticParams = () => ['nR', 'nF'];
+    cdsq: 0.02 * 0.02 // radius for collision detection
+  },
+  staticParams: ['nR', 'nF']
+});
 
 // def init function:  { params } -> {agents, env}
 const init = ({ params }) => {
@@ -91,5 +89,3 @@ const step = ({ params, agents, env }) => {
   }
   return { agents };
 };
-
-export default [init, step, modelParams, staticParams, title];
