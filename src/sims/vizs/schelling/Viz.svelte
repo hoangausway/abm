@@ -1,66 +1,28 @@
 <script>
-  import { extent, scaleLinear } from 'd3';
+  import { LayerCake, Svg } from 'layercake';
+  import Scatter from './Scatter.svg.svelte';
 
   // component props
   export let asyncModel;
+  export let width = 400;
+  export let height = 400;
 
-  export let w = 400;
-  export let h = 400;
-  export let c0 = 'red';
-  export let c1 = 'blue';
-
-  const radius = 3;
-
-  // typical d3 margin convention
-  const margins = { top: 10, right: 10, bottom: 10, left: 10 };
-  $: mainWidth = w - margins.right - margins.left;
-  $: mainHeight = h - margins.top - margins.bottom;
-
-  // utility functions for translating elements and scaling
-  const move = (x, y) => `transform: translate(${x}px, ${y}px`;
-  const xAccessor = (d) => d.x;
-  const yAccessor = (d) => d.y;
-  const fillColor = (type) => (type === 0 ? c0 : c1);
-
-  $: agents = $asyncModel.agents;
-
-  $: xScale = scaleLinear()
-    .domain(extent(agents, xAccessor))
-    .range([0, mainWidth]);
-
-  $: yScale = scaleLinear()
-    .domain(extent(agents, yAccessor))
-    .range([mainHeight, 0]);
+  $: data = $asyncModel.agents;
 </script>
 
-<!-- class container makes this div centered in his parent -->
-<div class='viz'>
-  <figure style={`width: ${w}px; height: ${h}px`}>
-    <svg viewBox={`0 0 ${w} ${h}`}>
-      <g style={move(margins.top, margins.left)}>
-        {#each agents as { type, x, y }}
-          <circle
-            cx={xScale(x)}
-            cy={yScale(y)}
-            r={radius}
-            fill={fillColor(type)}
-          />
-        {/each}
-      </g>
-    </svg>
-  </figure>
+<!-- The wrapper div needs to have an explicit width and height in CSS.
+It can also be a flexbox child or CSS grid element.
+The point being it needs dimensions since the <LayerCake> element will
+expand to fill it. -->
+<div style:width={`${width}px`} style:height="{`${height}`}px">
+  <LayerCake
+    padding={{ top: 10, right: 10, bottom: 10, left: 10 }}
+    xPadding={[10, 10]}
+    yPadding={[10, 10]}
+    x={'x'}
+    y={'y'}
+    {data}
+  >
+    <Svg><Scatter /></Svg>
+  </LayerCake>
 </div>
-
-<style>
-  .viz {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  figure {
-    background-color: white;
-    box-shadow: 5px 5px lightgray;
-    border: 1px solid gray;
-  }
-</style>

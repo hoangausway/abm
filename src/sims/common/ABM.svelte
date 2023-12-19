@@ -14,7 +14,7 @@
   export let modelPath;
   export let Viz;
   export let Info;
-  export let postStepFn = null;
+  export let fnPrePostStep = undefined;
 
   let asyncModel;
 
@@ -23,7 +23,7 @@
   const handler = () => sim.runOrPause(asyncModel);
 
   onMount(async () => {
-    asyncModel = await createAsyncModel(modelPath, postStepFn);
+    asyncModel = await createAsyncModel(modelPath, fnPrePostStep);
   });
 </script>
 
@@ -43,6 +43,9 @@
       </div>
       <div class="right" on:dblclick={handler}>
         <svelte:component this={Viz} {asyncModel} />
+        {#if $$slots.analys}
+          <slot name="analys" {asyncModel} />
+        {/if}
       </div>
     </div>
   {/if}

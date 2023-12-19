@@ -36,7 +36,7 @@ const init = ({ params }) => {
 
 // def step function: { params, agents, env } -> {agents, env}
 const step = ({ params, agents, env }) => {
-  // { n, w, params, agents } -> {agents}
+  // { params, agents } -> void
   const updateOneAgent = (params, agents) => {
     const { nr, mr, dr, rr, mf, df, rf, cdsq } = params;
 

@@ -26,12 +26,13 @@ export const createSimStore = () => {
     set({ running, step, timeInterval });
 
     // await till model has completed a step
-    console.log(`Running ${step}... `);
+    console.log(`Sim: running step ${step}... `);
     await model.step();
 
     // setup for next continuosly stepping
-    console.log(`Model step ${step} done... To be scheduled for next step ${step + 1} in: ${timeInterval}`);
+    console.log(`Sim: step ${step} done`);
     if (running) {
+      console.log(`Sim: scheduled for next step ${step + 1} in: ${timeInterval} ...`);
       timer = setTimeout(() => modelForward(model), timeInterval);
     }
   };
@@ -49,7 +50,6 @@ export const createSimStore = () => {
   const runOrPause = async (model) => {
     // clear timeout of the running loop
     timer = clearTimer();
-
     running = !running;
     set({ running, step, timeInterval });
 
@@ -60,12 +60,10 @@ export const createSimStore = () => {
   const stepOnce = async (model) => {
     // clear timeout of the running loop
     timer = clearTimer();
-    step++;
-    set({ running, step, timeInterval });
-
-    await model.step();
     running = false;
     set({ running, step, timeInterval });
+
+    modelForward(model);
   };
 
   // to reset model and ready to simulate from beginning
