@@ -29,7 +29,7 @@ const init = ({ params }) => {
 // { params, agents, env } -> {agents, env}
 const step = ({ params, agents, env }) => {
   const { n, w, Dh, Dc, Dt, k, f } = params;
-
+  const nextenv = Array.from({ length: w }, () => Array.from({ length: w }, () => 0));
   // Simulating diffusion and evaporation of cAMP
   for (let x = 0; x < w; x++) {
     for (let y = 0; y < w; y++) {
@@ -42,13 +42,13 @@ const step = ({ params, agents, env }) => {
       const lap = (R + L + U + D - 4 * C) / (Dh ** 2);
 
       // update env at point (x, y)
-      env[x][y] = env[x][y] + (-k * C + Dc * lap) * Dt;
+      nextenv[x][y] = env[x][y] + (-k * C + Dc * lap) * Dt;
     }
   }
 
   // Simulating secretion of cAMP by agents
   for (const ag of agents) {
-    env[ag.x][ag.y] += f * Dt;
+    nextenv[ag.x][ag.y] += f * Dt;
   }
 
   // Simulating chemotaxis of agents
@@ -58,12 +58,12 @@ const step = ({ params, agents, env }) => {
     if (newx < 0) newx = w + newx;
     if (newy < 0) newy = w + newy;
 
-    const diff = (env[newx][newy] - env[ag.x][ag.y]) / 0.1;
+    const diff = (nextenv[newx][newy] - nextenv[ag.x][ag.y]) / 0.1;
 
     if (Math.random() < Math.exp(diff) / (1 + Math.exp(diff))) {
       ag.x = newx;
       ag.y = newy;
     }
   }
-  return { env, agents };
+  return { env: nextenv, agents };
 };
